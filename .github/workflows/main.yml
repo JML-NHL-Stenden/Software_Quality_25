@@ -1,44 +1,38 @@
-# jabberpoint-ci-cd.yml
-version: '1.0'
+name: Java CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
 
 jobs:
   build:
+    name: Build, Test, and Lint
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        
-      - name: Set up JDK
-        uses: actions/setup-java@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
         with:
-          java-version: '11' # specify Java version
+          java-version: '17'
+          distribution: 'temurin'
 
-      - name: Build with Gradle
-        run: ./gradlew build
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-
-      - name: Run tests
-        run: ./gradlew test
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Deploy to server
+      - name: Compile with javac
         run: |
-          echo "Deploying application..."
-          # Add your deployment commands here
+          mkdir -p out
+          find . -name "*.java" > sources.txt
+          javac -d out @sources.txt
+
+      - name: Run tests (JUnit)
+        run: |
+          mkdir -p test-out
+          java -cp "out:libs/*" org.junit.runner.JUnitCore $(find ./test -name "*Test.java" | sed 's|./test/||;s|.java||;s|/|.|g')
+
+      - name: Run Checkstyle (custom rules)
+        run: |
+          wget https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.3/checkstyle-10.12.3-all.jar -O checkstyle.jar
+          java -jar checkstyle.jar -c checkstyle.xml $(find ./ -name "*.java")
