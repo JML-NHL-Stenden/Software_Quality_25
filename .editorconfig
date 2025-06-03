@@ -1,0 +1,32 @@
+root = true
+
+[*.java]
+
+indent_style = space
+indent_size = 4
+
+insert_final_newline = true
+max_line_length = 120
+
+# Braces on new lines
+ij_java_brace_style = next_line
+
+# Force this. for fields
+ij_java_use_this_for_non_static_field_access = true
+
+# Spacing
+space_around_operators = true
+space_after_keywords = true
+space_after_comma = true
+space_before_method_parentheses = false
+space_within_brackets = false
+space_before_left_brace = true
+
+# Blank lines
+ij_java_blank_lines_before_method = 1
+ij_java_blank_lines_after_method = 1
+
+# Method and variable naming
+ij_java_method_name_style = lowerCamelCase
+ij_java_field_name_style = lowerCamelCase
+ij_java_constant_name_style = UPPER_SNAKE_CASE

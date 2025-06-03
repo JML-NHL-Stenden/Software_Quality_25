@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-    name: Build, Test, and Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -21,18 +20,19 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Compile with javac
+      - name: Download JUnit Platform Console
+        run: |
+          mkdir -p libs
+          curl -L -o libs/junit-platform-console-standalone.jar https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.0/junit-platform-console-standalone-1.10.0.jar
+
+      - name: Compile Java source and test files
         run: |
           mkdir -p out
-          find . -name "*.java" > sources.txt
-          javac -d out @sources.txt
+          find Jabberpoint-IT/src Jabberpoint-IT/test -name "*.java" > sources.txt
+          javac -cp libs/junit-platform-console-standalone.jar -d out @sources.txt
 
-      - name: Run tests (JUnit)
+      - name: Run all JUnit 5 tests
         run: |
-          mkdir -p test-out
-          java -cp "out:libs/*" org.junit.runner.JUnitCore $(find ./test -name "*Test.java" | sed 's|./test/||;s|.java||;s|/|.|g')
-
-      - name: Run Checkstyle (custom rules)
-        run: |
-          wget https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.3/checkstyle-10.12.3-all.jar -O checkstyle.jar
-          java -jar checkstyle.jar -c checkstyle.xml $(find ./ -name "*.java")
+          java -jar libs/junit-platform-console-standalone.jar \
+            --class-path out \
+            --scan-class-path
