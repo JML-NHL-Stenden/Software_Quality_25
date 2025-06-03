@@ -1,0 +1,16 @@
+# IDE files
+.idea/
+*.iml
+
+# Build output
+out/
+
+# Logs
+*.log
+
+# Sensitive files
+.env
+
+# Temporary files
+*.class
+*.pyc
