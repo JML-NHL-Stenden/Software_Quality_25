@@ -6,8 +6,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
+import java.io.InputStream;
 
 /**
  * Class that represents a bitmap item in a slide.
@@ -22,12 +22,32 @@ public class BitmapItem extends SlideItem
     {
         super(level);
         this.imageName = name;
-        try
-        {
-            bufferedImage = ImageIO.read(new File(imageName));
-        } catch (IOException e)
-        {
-            System.err.println("File " + imageName + " not found");
+
+        // First try loading as a resource from classpath (inside jar or build/classes)
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream("images/" + imageName)) {
+            if (is != null) {
+                bufferedImage = ImageIO.read(is);
+            } else {
+                // If not found in classpath, try loading from file system path "src/images/"
+                loadFromFileSystem();
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading image resource: " + imageName);
+            loadFromFileSystem();
+        }
+    }
+
+    private void loadFromFileSystem() {
+        try {
+            String path = "src/images/" + imageName;
+            File file = new File(path);
+            if (file.exists()) {
+                bufferedImage = ImageIO.read(file);
+            } else {
+                System.err.println("File " + path + " not found on file system.");
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading image file from file system: " + imageName);
         }
     }
 
@@ -47,12 +67,12 @@ public class BitmapItem extends SlideItem
         if (bufferedImage != null)
         {
             g.drawImage(
-                    bufferedImage,
-                    x,
-                    y,
-                    (int) (bufferedImage.getWidth() * scale),
-                    (int) (bufferedImage.getHeight() * scale),
-                    observer
+                bufferedImage,
+                x,
+                y,
+                (int) (bufferedImage.getWidth() * scale),
+                (int) (bufferedImage.getHeight() * scale),
+                observer
             );
         }
     }

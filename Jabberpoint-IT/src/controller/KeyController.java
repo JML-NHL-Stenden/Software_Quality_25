@@ -11,25 +11,22 @@ import java.awt.event.KeyAdapter;
  *
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
-public class KeyController extends KeyAdapter
-{
+public class KeyController extends KeyAdapter {
 
     private final Presentation presentation;
 
-    public KeyController(Presentation presentation)
-    {
+    public KeyController(Presentation presentation) {
         this.presentation = presentation;
     }
 
     @Override
-    public void keyPressed(KeyEvent keyEvent)
-    {
+    public void keyPressed(KeyEvent keyEvent) {
         Command command = null;
 
-        switch (keyEvent.getKeyCode())
-        {
+        switch (keyEvent.getKeyCode()) {
             case KeyEvent.VK_PAGE_DOWN:
             case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_ENTER:
             case '+':
                 command = new NextSlideCommand(presentation);
@@ -37,6 +34,7 @@ public class KeyController extends KeyAdapter
 
             case KeyEvent.VK_PAGE_UP:
             case KeyEvent.VK_UP:
+            case KeyEvent.VK_LEFT:
             case '-':
                 command = new PrevSlideCommand(presentation);
                 break;
@@ -47,8 +45,7 @@ public class KeyController extends KeyAdapter
                 break;
         }
 
-        if (command != null)
-        {
+        if (command != null) {
             command.execute();
         }
     }
