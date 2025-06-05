@@ -3,13 +3,8 @@ package view;
 import model.Presentation;
 import model.Slide;
 
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * <p>SlideViewerComponent is a graphical component that can show slides.</p>
@@ -64,15 +59,14 @@ public class SlideViewerComponent extends JComponent implements PresentationObse
         g.setColor(BACKGROUND_COLOR);
         g.fillRect(0, 0, getSize().width, getSize().height);
 
-        if (presentation == null || slide == null || presentation.getSlideNumber() < 0)
-        {
+        if (presentation==null || slide==null || presentation.getSlideNumber() < 0) {
             return;
         }
 
         g.setFont(labelFont);
         g.setColor(TEXT_COLOR);
         g.drawString("Slide " + (1 + presentation.getSlideNumber()) + " of " +
-                presentation.getSize(), SLIDE_NUMBER_X, SLIDE_NUMBER_Y);
+            presentation.getSize(), SLIDE_NUMBER_X, SLIDE_NUMBER_Y);
 
         Rectangle area = new Rectangle(0, SLIDE_NUMBER_Y, getWidth(), getHeight() - SLIDE_NUMBER_Y);
         slide.draw(g, area, this);

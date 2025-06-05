@@ -1,11 +1,14 @@
 import model.BitmapItem;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class BitmapItemTest {
+public class BitmapItemTest
+{
     @Test
-    public void testBitmapItemLoadsValidImage() {
+    public void testBitmapItemLoadsValidImage()
+    {
         System.out.println("Running testBitmapItemLoadsValidImage: verifying image loading from disk.");
 
         BitmapItem item = new BitmapItem(1, "JabberPoint.gif");
@@ -15,7 +18,8 @@ public class BitmapItemTest {
     }
 
     @Test
-    public void testBitmapItemFailsGracefullyForMissingImage() {
+    public void testBitmapItemFailsGracefullyForMissingImage()
+    {
         System.out.println("Running testBitmapItemFailsGracefullyForMissingImage: loading nonexistent file.");
 
         BitmapItem item = new BitmapItem(1, "nonexistent.png");

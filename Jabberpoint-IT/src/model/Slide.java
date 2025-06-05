@@ -1,7 +1,6 @@
 package model;
 
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,14 +65,12 @@ public class Slide
         g.drawString(getTitle(), area.x + (int) (style.indent * scale), y);
         y += style.leading;
 
-        if (items.isEmpty())
-        {
+        if (items.isEmpty()) {
             g.drawString("[ EMPTY SLIDE ]", area.x + 50, y + 50);
             return;
         }
 
-        for (SlideItem item : items)
-        {
+        for (SlideItem item : items) {
             item.draw(area.x, y, scale, g, Style.getStyle(item.getLevel()), view);
             y += item.getBoundingBox(g, view, scale, Style.getStyle(item.getLevel())).height;
         }

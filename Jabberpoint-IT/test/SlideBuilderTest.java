@@ -1,7 +1,7 @@
+import model.BitmapItem;
 import model.Slide;
 import model.SlideItem;
 import model.TextItem;
-import model.BitmapItem;
 import model.builder.SlideBuilder;
 import org.junit.jupiter.api.Test;
 
@@ -38,8 +38,8 @@ public class SlideBuilderTest
     {
         System.out.println("Running testBuildSlideWithSingleTextItem: adding one text item.");
         Slide slide = new SlideBuilder()
-                .addText(1, "Welcome")
-                .build();
+            .addText(1, "Welcome")
+            .build();
 
         assertNull(slide.getTitle(), "Title should be null.");
         assertEquals(1, slide.getSlideItems().size(), "Slide should contain one item.");
@@ -55,8 +55,8 @@ public class SlideBuilderTest
     {
         System.out.println("Running testBuildSlideWithSingleImageItem: adding one image item.");
         Slide slide = new SlideBuilder()
-                .addImage(2, "image.png")
-                .build();
+            .addImage(2, "image.png")
+            .build();
 
         assertNull(slide.getTitle(), "Title should be null.");
         assertEquals(1, slide.getSlideItems().size(), "Slide should contain one item.");
@@ -72,10 +72,10 @@ public class SlideBuilderTest
     {
         System.out.println("Running testBuildSlideWithTitleAndMultipleItems: building full slide.");
         Slide slide = new SlideBuilder()
-                .withTitle("Overview")
-                .addText(1, "Welcome to JabberPoint")
-                .addImage(2, "logo.png")
-                .build();
+            .withTitle("Overview")
+            .addText(1, "Welcome to JabberPoint")
+            .addImage(2, "logo.png")
+            .build();
 
         assertEquals("Overview", slide.getTitle(), "Title should match.");
         assertEquals(2, slide.getSlideItems().size(), "Slide should contain two items.");

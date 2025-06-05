@@ -21,14 +21,13 @@ public class SavePresentationCommand implements Command
     @Override
     public void execute()
     {
-        try
-        {
+        try {
             new XMLAccessor().saveFile(presentation, filename);
-        } catch (IOException e)
-        {
+        }
+        catch (IOException e) {
             JOptionPane.showMessageDialog(null,
-                    "Could not save presentation: " + e.getMessage(),
-                    "Save Error", JOptionPane.ERROR_MESSAGE);
+                "Could not save presentation: " + e.getMessage(),
+                "Save Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

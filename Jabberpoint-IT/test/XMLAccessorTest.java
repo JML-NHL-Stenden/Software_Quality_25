@@ -25,8 +25,7 @@ public class XMLAccessorTest
         assertTrue(file.exists(), "File should exist after saving.");
         System.out.println("Result: XML file was saved to disk successfully.");
 
-        if (file.exists())
-        {
+        if (file.exists()) {
             file.delete();
         }
     }
@@ -46,8 +45,7 @@ public class XMLAccessorTest
         assertTrue(file.exists(), "File should exist for empty presentation.");
         System.out.println("Result: Empty presentation was saved successfully.");
 
-        if (file.exists())
-        {
+        if (file.exists()) {
             file.delete();
         }
     }

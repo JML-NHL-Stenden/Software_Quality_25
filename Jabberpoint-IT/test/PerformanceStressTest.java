@@ -12,8 +12,7 @@ public class PerformanceStressTest
         Presentation presentation = new Presentation();
         int slideCount = 1000;
 
-        for (int i = 0; i < slideCount; i++)
-        {
+        for (int i = 0; i < slideCount; i++) {
             presentation.append(new Slide());
         }
 

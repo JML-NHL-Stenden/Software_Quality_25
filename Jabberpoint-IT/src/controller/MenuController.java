@@ -59,22 +59,23 @@ public class MenuController extends MenuBar
     {
         Menu fileMenu = new Menu(FILE);
 
-        fileMenu.add(createMenuItem(OPEN, e -> {
+        fileMenu.add(createMenuItem(OPEN, e ->
+        {
             presentation.clear();
             Accessor xmlAccessor = new XMLAccessor();
-            try
-            {
+            try {
                 xmlAccessor.loadFile(presentation, TESTFILE);
                 presentation.setSlideNumber(-1); // force observer to refresh
                 presentation.setSlideNumber(0);  // start at first actual slide
-            } catch (IOException exc)
-            {
+            }
+            catch (IOException exc) {
                 showErrorDialog(IOEX + exc, LOADERR);
             }
             parent.repaint();
         }));
 
-        fileMenu.add(createMenuItem(NEW, e -> {
+        fileMenu.add(createMenuItem(NEW, e ->
+        {
             presentation.clear();
             parent.repaint();
         }));
@@ -95,14 +96,14 @@ public class MenuController extends MenuBar
         viewMenu.add(createMenuItem(NEXT, new NextSlideCommand(presentation)));
         viewMenu.add(createMenuItem(PREV, new PrevSlideCommand(presentation)));
 
-        viewMenu.add(createMenuItem(GOTO, e -> {
+        viewMenu.add(createMenuItem(GOTO, e ->
+        {
             String pageNumberStr = JOptionPane.showInputDialog(PAGENR);
-            try
-            {
+            try {
                 int pageNumber = Integer.parseInt(pageNumberStr);
                 new GoToSlideCommand(presentation, pageNumber - 1).execute();
-            } catch (NumberFormatException ignored)
-            {
+            }
+            catch (NumberFormatException ignored) {
             }
         }));
 

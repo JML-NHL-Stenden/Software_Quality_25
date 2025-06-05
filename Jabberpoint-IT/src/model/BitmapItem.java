@@ -1,12 +1,11 @@
 package model;
 
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 import java.io.InputStream;
 
 /**
@@ -25,28 +24,33 @@ public class BitmapItem extends SlideItem
 
         // First try loading as a resource from classpath (inside jar or build/classes)
         try (InputStream is = getClass().getClassLoader().getResourceAsStream("images/" + imageName)) {
-            if (is != null) {
+            if (is!=null) {
                 bufferedImage = ImageIO.read(is);
-            } else {
+            }
+            else {
                 // If not found in classpath, try loading from file system path "src/images/"
                 loadFromFileSystem();
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.err.println("Error reading image resource: " + imageName);
             loadFromFileSystem();
         }
     }
 
-    private void loadFromFileSystem() {
+    private void loadFromFileSystem()
+    {
         try {
             String path = "src/images/" + imageName;
             File file = new File(path);
             if (file.exists()) {
                 bufferedImage = ImageIO.read(file);
-            } else {
+            }
+            else {
                 System.err.println("File " + path + " not found on file system.");
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.err.println("Error reading image file from file system: " + imageName);
         }
     }
@@ -64,8 +68,7 @@ public class BitmapItem extends SlideItem
     @Override
     public void draw(int x, int y, float scale, Graphics g, Style style, ImageObserver observer)
     {
-        if (bufferedImage != null)
-        {
+        if (bufferedImage!=null) {
             g.drawImage(
                 bufferedImage,
                 x,
@@ -80,8 +83,7 @@ public class BitmapItem extends SlideItem
     @Override
     public Rectangle getBoundingBox(Graphics g, ImageObserver observer, float scale, Style style)
     {
-        if (bufferedImage == null)
-        {
+        if (bufferedImage==null) {
             return new Rectangle(0, 0, 0, 0);
         }
 
