@@ -1,10 +1,9 @@
-package test.java;
-
-import main.java.model.Presentation;
-import main.java.model.Slide;
+import model.Presentation;
+import model.Slide;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class PresentationTest
 {

@@ -1,67 +1,75 @@
-package main.java.accessor;
+package accessor;
 
-import main.java.model.Presentation;
-import main.java.model.Slide;
-import main.java.model.builder.SlideBuilder;
+import model.Presentation;
+import model.Slide;
+import model.builder.SlideBuilder;
 
 import java.io.IOException;
 
 /**
- * A built in demo-presentation
- *
- * @version 1.6 2014/05/16 Sylvia Stuurman
+ * A hardcoded demo presentation for testing.
  */
-public class DemoPresentation extends Accessor
-{
+public class DemoPresentation extends Accessor {
 
     @Override
-    public void loadFile(Presentation presentation, String unusedFilename) throws IOException
-    {
+    public void loadFile(Presentation presentation, String unusedFilename) throws IOException {
+        if (presentation == null) {
+            throw new IllegalArgumentException("Presentation cannot be null.");
+        }
+
         presentation.setTitle("Demo Presentation");
 
-        Slide intro = new SlideBuilder()
-                .withTitle("JabberPoint")
-                .addText(1, "The Java Presentation Tool")
-                .addText(2, "Copyright (c) 1996-2000: Ian Darwin")
-                .addText(2, "Copyright (c) 2000-now:")
-                .addText(2, "Gert Florijn and Sylvia Stuurman")
-                .addText(4, "Starting JabberPoint without a filename")
-                .addText(4, "shows this presentation")
-                .addText(1, "Navigate:")
-                .addText(3, "Next slide: PgDn or Enter")
-                .addText(3, "Previous slide: PgUp or up-arrow")
-                .addText(3, "Quit: q or Q")
-                .build();
-        presentation.append(intro);
+        SlideBuilder builder = new SlideBuilder();
 
-        Slide levels = new SlideBuilder()
-                .withTitle("Demonstration of levels and stijlen")
-                .addText(1, "Level 1")
-                .addText(2, "Level 2")
-                .addText(1, "Again level 1")
-                .addText(1, "Level 1 has style number 1")
-                .addText(2, "Level 2 has style number 2")
-                .addText(3, "This is how level 3 looks like")
-                .addText(4, "And this is level 4")
-                .build();
-        presentation.append(levels);
+        // First slide
+        Slide slide1 = builder
+            .withTitle("Welcome to JabberPoint")
+            .addText(1, "The Java Presentation Tool")
+            .addText(2, "Copyright (c) 1996-2000: Ian Darwin")
+            .addText(2, "Copyright (c) 2000-now:")
+            .addText(2, "Gert Florijn and Sylvia Stuurman")
+            .addText(4, "Starting JabberPoint without a filename")
+            .addText(4, "shows this presentation")
+            .addText(1, "Navigate:")
+            .addText(3, "Goto: G or Enter")
+            .addText(3, "Next slide: Up Arrow or Right Arrow")
+            .addText(3, "Previous slide: Down Arrow or Left Arrow")
+            .addText(3, "Quit: Q")
 
-        Slide finalSlide = new SlideBuilder()
-                .withTitle("The third slide")
-                .addText(1, "To open a new presentation,")
-                .addText(2, "use File->Open from the menu.")
-                .addText(1, " ")
-                .addText(1, "This is the end of the presentation.")
-                .addImage(1, "JabberPoint.gif") // Changed from JabberPoint.jpg to JabberPoint.gif
-                .build();
-        presentation.append(finalSlide);
+            .build();
+        presentation.append(slide1);
+        builder.reset();
 
-        presentation.setSlideNumber(0); // ✅ called last
+        // Second slide
+        Slide slide2 = builder
+            .withTitle("Demonstration of levels and stijlen")
+            .addText(1, "Level 1")
+            .addText(2, "Level 2")
+            .addText(1, "Again level 1")
+            .addText(1, "Level 1 has style number 1")
+            .addText(2, "Level 2 has style number 2")
+            .addText(3, "This is how level 3 looks like")
+            .addText(4, "And this is level 4")
+            .build();
+        presentation.append(slide2);
+        builder.reset();
+
+        // Third slide
+        Slide slide3 = builder
+            .withTitle("The third slide")
+            .addText(1, "To open a new presentation,")
+            .addText(2, "use File->Open from the menu.")
+            .addText(1, "This is the end of the presentation.")
+            .addImage(1, "JabberPoint.gif")
+            .build();
+        presentation.append(slide3);
+
+        // ✅ Set first slide after appending all
+        presentation.setSlideNumber(0);
     }
 
     @Override
-    public void saveFile(Presentation presentation, String unusedFilename)
-    {
-        throw new IllegalStateException("Save As->Demo! called");
+    public void saveFile(Presentation presentation, String filename) throws IOException {
+        throw new UnsupportedOperationException("Save not supported for demo presentation.");
     }
 }

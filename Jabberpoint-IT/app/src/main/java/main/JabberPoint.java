@@ -1,12 +1,12 @@
-package main.java;
+package main;
 
-import main.java.accessor.Accessor;
-import main.java.accessor.XMLAccessor;
-import main.java.model.Presentation;
-import main.java.view.SlideViewerFrame;
-import main.java.model.Style;
+import accessor.Accessor;
+import accessor.XMLAccessor;
+import model.Presentation;
+import model.Style;
+import view.SlideViewerFrame;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.io.IOException;
 
 /**
@@ -35,25 +35,22 @@ public class JabberPoint
         Presentation presentation = new Presentation();
         new SlideViewerFrame(VERSION, presentation);
 
-        try
-        {
-            if (args.length == 0)
-            {
+        try {
+            if (args.length==0) {
                 // Show demo presentation
                 Accessor.getDemoAccessor().loadFile(presentation, "");
             }
-            else
-            {
+            else {
                 new XMLAccessor().loadFile(presentation, args[0]);
             }
             presentation.setSlideNumber(0);
-        } catch (IOException ex)
-        {
+        }
+        catch (IOException ex) {
             JOptionPane.showMessageDialog(
-                    null,
-                    IO_ERROR + ex,
-                    JABBERPOINT_ERROR,
-                    JOptionPane.ERROR_MESSAGE
+                null,
+                IO_ERROR + ex,
+                JABBERPOINT_ERROR,
+                JOptionPane.ERROR_MESSAGE
             );
         }
     }

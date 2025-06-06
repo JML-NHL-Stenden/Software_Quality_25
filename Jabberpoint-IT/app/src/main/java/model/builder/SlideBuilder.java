@@ -1,42 +1,97 @@
-package main.java.model.builder;
+package model.builder;
 
-import main.java.model.BitmapItem;
-import main.java.model.Slide;
-import main.java.model.TextItem;
+import model.BitmapItem;
+import model.Slide;
+import model.SlideItem;
+import model.TextItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fluent builder for creating Slide objects.
+ * Ensures proper construction and input validation before building.
  */
-public class SlideBuilder
-{
+public class SlideBuilder {
 
-    private final Slide slide;
+    private String title;
+    private final List<SlideItem> items;
 
-    public SlideBuilder()
-    {
-        this.slide = new Slide();
+    public SlideBuilder() {
+        this.items = new ArrayList<>();
     }
 
-    public SlideBuilder withTitle(String title)
-    {
+    /**
+     * Sets the title of the slide.
+     *
+     * @param title The slide title.
+     * @return This builder instance.
+     */
+    public SlideBuilder withTitle(String title) {
+        if (title == null || title.trim().isEmpty()) {
+            throw new IllegalArgumentException("Slide title cannot be null or empty.");
+        }
+        this.title = title.trim();
+        return this;
+    }
+
+    /**
+     * Adds a text item to the slide.
+     *
+     * @param level   The level (indentation or hierarchy) of the text.
+     * @param content The actual text content.
+     * @return This builder instance.
+     */
+    public SlideBuilder addText(int level, String content) {
+        if (content == null || content.trim().isEmpty()) {
+            throw new IllegalArgumentException("Text content cannot be null or empty.");
+        }
+        items.add(new TextItem(level, content.trim()));
+        return this;
+    }
+
+    /**
+     * Adds an image item to the slide.
+     *
+     * @param level     The level of the image.
+     * @param imagePath The path to the image file.
+     * @return This builder instance.
+     */
+    public SlideBuilder addImage(int level, String imagePath) {
+        if (imagePath == null || imagePath.trim().isEmpty()) {
+            throw new IllegalArgumentException("Image path cannot be null or empty.");
+        }
+        items.add(new BitmapItem(level, imagePath.trim()));
+        return this;
+    }
+
+    /**
+     * Builds the Slide object from the builder state.
+     *
+     * @return A fully constructed Slide.
+     * @throws IllegalStateException if required fields are missing.
+     */
+    public Slide build() {
+        if (title == null || title.trim().isEmpty()) {
+            throw new IllegalStateException("Slide must have a title before building.");
+        }
+
+        Slide slide = new Slide();
         slide.setTitle(title);
-        return this;
-    }
-
-    public SlideBuilder addText(int level, String content)
-    {
-        slide.append(new TextItem(level, content));
-        return this;
-    }
-
-    public SlideBuilder addImage(int level, String imagePath)
-    {
-        slide.append(new BitmapItem(level, imagePath));
-        return this;
-    }
-
-    public Slide build()
-    {
+        for (SlideItem item : items) {
+            slide.append(item);
+        }
         return slide;
+    }
+
+    /**
+     * Resets the builder state, allowing reuse.
+     *
+     * @return This builder instance, cleared and ready for new input.
+     */
+    public SlideBuilder reset() {
+        this.title = null;
+        this.items.clear();
+        return this;
     }
 }

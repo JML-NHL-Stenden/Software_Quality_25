@@ -1,8 +1,8 @@
-package main.java.view;
+package view;
 
-import main.java.controller.KeyController;
-import main.java.controller.MenuController;
-import main.java.model.Presentation;
+import controller.KeyController;
+import controller.MenuController;
+import model.Presentation;
 
 import javax.swing.JFrame;
 import java.awt.Dimension;

@@ -1,7 +1,6 @@
-package main.java.model;
+package model;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 
 /**
  * <p>Style is for Indent, Color, Font and Leading.</p>
@@ -15,15 +14,22 @@ import java.awt.Font;
 public class Style
 {
 
-    private static Style[] styles; // de styles
-
     private static final String FONT_NAME = "Helvetica";
-
+    private static Style[] styles; // de styles
     int indent;
     Color color;
     Font font;
     int fontSize;
     int leading;
+
+    public Style(int indent, Color color, int points, int leading)
+    {
+        this.indent = indent;
+        this.color = color;
+        this.fontSize = points;
+        this.font = new Font(FONT_NAME, Font.BOLD, this.fontSize);
+        this.leading = leading;
+    }
 
     public static void createStyles()
     {
@@ -39,20 +45,10 @@ public class Style
 
     public static Style getStyle(int level)
     {
-        if (level >= styles.length)
-        {
+        if (level >= styles.length) {
             level = styles.length - 1;
         }
         return styles[level];
-    }
-
-    public Style(int indent, Color color, int points, int leading)
-    {
-        this.indent = indent;
-        this.color = color;
-        this.fontSize = points;
-        this.font = new Font(FONT_NAME, Font.BOLD, this.fontSize);
-        this.leading = leading;
     }
 
     public String toString()

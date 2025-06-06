@@ -1,9 +1,7 @@
-package test.java;
-
-import main.java.model.TextItem;
+import model.TextItem;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TextItemTest
 {

@@ -1,4 +1,4 @@
-package main.java.model;
+package model;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -44,7 +44,7 @@ public class TextItem extends SlideItem
     // Returns the text content of this item
     public String getText()
     {
-        return text == null ? "" : text;
+        return text==null ? "": text;
     }
 
     // Creates an AttributedString using the item's style
@@ -57,20 +57,17 @@ public class TextItem extends SlideItem
 
     // Computes the bounding box for this text item
     public Rectangle getBoundingBox(Graphics g, ImageObserver observer,
-            float scale, Style style)
+                                    float scale, Style style)
     {
         List<TextLayout> layouts = getLayouts(g, style, scale);
         int width = 0;
         int height = (int) (style.leading * scale);
-        for (TextLayout layout : layouts)
-        {
+        for (TextLayout layout : layouts) {
             Rectangle2D bounds = layout.getBounds();
-            if (bounds.getWidth() > width)
-            {
+            if (bounds.getWidth() > width) {
                 width = (int) bounds.getWidth();
             }
-            if (bounds.getHeight() > 0)
-            {
+            if (bounds.getHeight() > 0) {
                 height += bounds.getHeight();
             }
             height += layout.getLeading() + layout.getDescent();
@@ -80,21 +77,19 @@ public class TextItem extends SlideItem
 
     // Draws this text item
     public void draw(int x, int y, float scale, Graphics g,
-            Style style, ImageObserver observer)
+                     Style style, ImageObserver observer)
     {
-        if (text == null || text.isEmpty())
-        {
+        if (text==null || text.isEmpty()) {
             return;
         }
 
         List<TextLayout> layouts = getLayouts(g, style, scale);
         Point pen = new Point(x + (int) (style.indent * scale),
-                y + (int) (style.leading * scale));
+            y + (int) (style.leading * scale));
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(style.color);
 
-        for (TextLayout layout : layouts)
-        {
+        for (TextLayout layout : layouts) {
             pen.y += layout.getAscent();
             layout.draw(g2d, pen.x, pen.y);
             pen.y += layout.getDescent();
@@ -111,8 +106,7 @@ public class TextItem extends SlideItem
         LineBreakMeasurer measurer = new LineBreakMeasurer(attrStr.getIterator(), frc);
         float wrappingWidth = (Slide.WIDTH - style.indent) * scale;
 
-        while (measurer.getPosition() < getText().length())
-        {
+        while (measurer.getPosition() < getText().length()) {
             layouts.add(measurer.nextLayout(wrappingWidth));
         }
         return layouts;

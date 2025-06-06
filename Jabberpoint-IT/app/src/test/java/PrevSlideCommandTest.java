@@ -1,11 +1,9 @@
-package test.java;
-
-import main.java.controller.command.PrevSlideCommand;
-import main.java.model.Presentation;
-import main.java.model.Slide;
+import controller.command.PrevSlideCommand;
+import model.Presentation;
+import model.Slide;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PrevSlideCommandTest
 {

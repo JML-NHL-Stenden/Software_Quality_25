@@ -1,7 +1,7 @@
-package main.java.view;
+package view;
 
-import main.java.model.Presentation;
-import main.java.model.Slide;
+import model.Presentation;
+import model.Slide;
 
 /**
  * Observer interface for presentation view updates.

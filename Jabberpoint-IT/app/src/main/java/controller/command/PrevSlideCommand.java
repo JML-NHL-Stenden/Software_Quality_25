@@ -1,20 +1,16 @@
-package main.java.controller.command;
+package controller.command;
 
-import main.java.model.Presentation;
+import model.Presentation;
 
-public class PrevSlideCommand implements Command
-{
-
+public class PrevSlideCommand implements Command {
     private final Presentation presentation;
 
-    public PrevSlideCommand(Presentation presentation)
-    {
+    public PrevSlideCommand(Presentation presentation) {
         this.presentation = presentation;
     }
 
     @Override
-    public void execute()
-    {
+    public void execute() {
         presentation.prevSlide();
     }
 }

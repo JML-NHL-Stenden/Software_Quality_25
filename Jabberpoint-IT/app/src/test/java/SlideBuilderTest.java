@@ -1,87 +1,88 @@
-package test.java;
-
-import main.java.model.Slide;
-import main.java.model.SlideItem;
-import main.java.model.TextItem;
-import main.java.model.BitmapItem;
-import main.java.model.builder.SlideBuilder;
+import model.BitmapItem;
+import model.Slide;
+import model.SlideItem;
+import model.TextItem;
+import model.builder.SlideBuilder;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SlideBuilderTest
-{
+public class SlideBuilderTest {
+
     @Test
-    public void testBuildSlideWithNoContent()
-    {
-        System.out.println("Running testBuildSlideWithNoContent: building an empty slide.");
-        Slide slide = new SlideBuilder().build();
+    public void testBuildSlideWithTitleAndItems() {
+        System.out.println("Running testBuildSlideWithTitleAndItems...");
 
-        assertNull(slide.getTitle(), "Title should be null.");
-        assertEquals(0, slide.getSlideItems().size(), "Slide should contain no items.");
+        SlideBuilder builder = new SlideBuilder();
+        Slide slide = builder
+            .withTitle("Sample Slide")
+            .addText(1, "This is a text item")
+            .addImage(2, "image.png")
+            .build();
 
-        System.out.println("Result: Slide was built with no title and no items as expected.");
+        assertEquals("Sample Slide", slide.getTitle(), "Title should match");
+        List<SlideItem> items = slide.getSlideItems();
+        assertEquals(2, items.size(), "Slide should contain two items");
+
+        assertTrue(items.get(0) instanceof TextItem, "First item should be TextItem");
+        assertTrue(items.get(1) instanceof BitmapItem, "Second item should be BitmapItem");
+
+        TextItem text = (TextItem) items.get(0);
+        assertEquals("This is a text item", text.getText(), "Text content should match");
+
+        BitmapItem image = (BitmapItem) items.get(1);
+        assertEquals("image.png", image.getName(), "Image path should match");
+
+        System.out.println("Result: Slide built with title, text, and image as expected.");
     }
 
     @Test
-    public void testBuildSlideWithTitleOnly()
-    {
-        System.out.println("Running testBuildSlideWithTitleOnly: building slide with title only.");
-        Slide slide = new SlideBuilder().withTitle("Intro").build();
+    public void testResetBuilderClearsPreviousState() {
+        System.out.println("Running testResetBuilderClearsPreviousState...");
 
-        assertEquals("Intro", slide.getTitle(), "Title should match input.");
-        assertEquals(0, slide.getSlideItems().size(), "Slide should contain no items.");
+        SlideBuilder builder = new SlideBuilder();
+        builder.withTitle("Old Slide").addText(1, "Old Text");
+        builder.reset();
 
-        System.out.println("Result: Slide was built with title and no items as expected.");
+        Slide newSlide = builder.withTitle("New Slide").addText(2, "New Text").build();
+
+        assertEquals("New Slide", newSlide.getTitle(), "Reset builder should allow new title");
+        List<SlideItem> items = newSlide.getSlideItems();
+        assertEquals(1, items.size(), "Only one item should remain after reset");
+
+        TextItem text = (TextItem) items.get(0);
+        assertEquals("New Text", text.getText(), "Text should match new input after reset");
+
+        System.out.println("Result: Builder reset successfully cleared previous state.");
     }
 
     @Test
-    public void testBuildSlideWithSingleTextItem()
-    {
-        System.out.println("Running testBuildSlideWithSingleTextItem: adding one text item.");
-        Slide slide = new SlideBuilder()
-                .addText(1, "Welcome")
-                .build();
+    public void testAddTextThrowsOnNull() {
+        System.out.println("Running testAddTextThrowsOnNull...");
 
-        assertNull(slide.getTitle(), "Title should be null.");
-        assertEquals(1, slide.getSlideItems().size(), "Slide should contain one item.");
-        SlideItem item = slide.getSlideItems().get(0);
-        assertTrue(item instanceof TextItem, "Item should be a TextItem.");
-        assertEquals("Welcome", ((TextItem) item).getText(), "Text should match.");
+        SlideBuilder builder = new SlideBuilder();
 
-        System.out.println("Result: Slide was built with one text item as expected.");
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            builder.addText(1, null);
+        });
+
+        assertEquals("Text content cannot be null or empty.", exception.getMessage());
+        System.out.println("Result: Exception correctly thrown for null text.");
     }
 
     @Test
-    public void testBuildSlideWithSingleImageItem()
-    {
-        System.out.println("Running testBuildSlideWithSingleImageItem: adding one image item.");
-        Slide slide = new SlideBuilder()
-                .addImage(2, "image.png")
-                .build();
+    public void testAddTextThrowsOnEmptyString() {
+        System.out.println("Running testAddTextThrowsOnEmptyString...");
 
-        assertNull(slide.getTitle(), "Title should be null.");
-        assertEquals(1, slide.getSlideItems().size(), "Slide should contain one item.");
-        SlideItem item = slide.getSlideItems().get(0);
-        assertTrue(item instanceof BitmapItem, "Item should be a BitmapItem.");
-        assertEquals("image.png", ((BitmapItem) item).getName(), "Image path should match.");
+        SlideBuilder builder = new SlideBuilder();
 
-        System.out.println("Result: Slide was built with one image item as expected.");
-    }
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            builder.addText(2, "   "); // whitespace only
+        });
 
-    @Test
-    public void testBuildSlideWithTitleAndMultipleItems()
-    {
-        System.out.println("Running testBuildSlideWithTitleAndMultipleItems: building full slide.");
-        Slide slide = new SlideBuilder()
-                .withTitle("Overview")
-                .addText(1, "Welcome to JabberPoint")
-                .addImage(2, "logo.png")
-                .build();
-
-        assertEquals("Overview", slide.getTitle(), "Title should match.");
-        assertEquals(2, slide.getSlideItems().size(), "Slide should contain two items.");
-
-        System.out.println("Result: Slide was built with a title, one text, and one image item.");
+        assertEquals("Text content cannot be null or empty.", exception.getMessage());
+        System.out.println("Result: Exception correctly thrown for empty text.");
     }
 }

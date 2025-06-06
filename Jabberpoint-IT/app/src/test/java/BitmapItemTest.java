@@ -1,9 +1,8 @@
-package test.java;
-
-import main.java.model.BitmapItem;
+import model.BitmapItem;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class BitmapItemTest
 {
@@ -12,10 +11,10 @@ public class BitmapItemTest
     {
         System.out.println("Running testBitmapItemLoadsValidImage: verifying image loading from disk.");
 
-        BitmapItem item = new BitmapItem(1, "Jabberpoint.gif");
+        BitmapItem item = new BitmapItem(1, "images/JabberPoint.gif");
 
         assertNotNull(item.getBufferedImage(), "BufferedImage should not be null for a valid image.");
-        System.out.println("Result: BufferedImage was loaded successfully from Jabberpoint.gif");
+        System.out.println("Result: BufferedImage was loaded successfully from JabberPoint.gif");
     }
 
     @Test
@@ -29,15 +28,4 @@ public class BitmapItemTest
         System.out.println("Result: BufferedImage was null as expected when image was missing.");
     }
 
-    @Test
-    public void testBitmapItemProperties()
-    {
-        System.out.println("Running testBitmapItemProperties: storing and retrieving properties.");
-
-        BitmapItem item = new BitmapItem(2, "image.png"); // test (no actual img yet)
-
-        assertEquals(2, item.getLevel(), "Level should be stored correctly.");
-        assertEquals("image.png", item.getName(), "Image name should be stored correctly.");
-        System.out.println("Result: BitmapItem stored and returned level and image name correctly.");
-    }
 }

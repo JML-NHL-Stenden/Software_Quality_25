@@ -1,11 +1,10 @@
-package test.java;
-
-import main.java.controller.command.GoToSlideCommand;
-import main.java.model.Presentation;
-import main.java.model.Slide;
+import controller.command.GoToSlideCommand;
+import model.Presentation;
+import model.Slide;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class GoToSlideCommandTest
 {

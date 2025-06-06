@@ -1,58 +1,39 @@
-package main.java.controller;
+package controller;
 
-import main.java.controller.command.Command;
-import main.java.controller.command.ExitCommand;
-import main.java.controller.command.NextSlideCommand;
-import main.java.controller.command.PrevSlideCommand;
-import main.java.model.Presentation;
+import controller.command.*;
+import model.Presentation;
 
-import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
-/**
- * <p>This is the KeyController (KeyListener)</p>
- *
- * @version 1.6 2014/05/16 Sylvia Stuurman
- */
-public class KeyController extends KeyAdapter
-{
+public class KeyController extends KeyAdapter {
+    private final CommandInvoker invoker = new CommandInvoker();
 
-    private final Presentation presentation;
+    public KeyController(Presentation presentation) {
+        // Slide navigation
+        invoker.bind(KeyEvent.VK_PAGE_DOWN, new NextSlideCommand(presentation));
+        invoker.bind(KeyEvent.VK_RIGHT, new NextSlideCommand(presentation));
+        invoker.bind(KeyEvent.VK_DOWN, new NextSlideCommand(presentation));
 
-    public KeyController(Presentation presentation)
-    {
-        this.presentation = presentation;
+        invoker.bind(KeyEvent.VK_PAGE_UP, new PrevSlideCommand(presentation));
+        invoker.bind(KeyEvent.VK_LEFT, new PrevSlideCommand(presentation));
+        invoker.bind(KeyEvent.VK_UP, new PrevSlideCommand(presentation));
+
+        // Jump to slide (dynamic input)
+        invoker.bind(KeyEvent.VK_G, new GoToSlideCommand(presentation));
+        invoker.bind(KeyEvent.VK_ENTER, new GoToSlideCommand(presentation));
+
+        // Save
+        invoker.bind(KeyEvent.VK_S, new SavePresentationCommand(presentation));
+
+        // Exit
+        invoker.bind(KeyEvent.VK_ESCAPE, new ExitCommand());
+        invoker.bind(KeyEvent.VK_Q, new ExitCommand());
     }
 
     @Override
-    public void keyPressed(KeyEvent keyEvent)
-    {
-        Command command = null;
-
-        switch (keyEvent.getKeyCode())
-        {
-            case KeyEvent.VK_PAGE_DOWN:
-            case KeyEvent.VK_DOWN:
-            case KeyEvent.VK_ENTER:
-            case '+':
-                command = new NextSlideCommand(presentation);
-                break;
-
-            case KeyEvent.VK_PAGE_UP:
-            case KeyEvent.VK_UP:
-            case '-':
-                command = new PrevSlideCommand(presentation);
-                break;
-
-            case 'q':
-            case 'Q':
-                command = new ExitCommand(presentation);
-                break;
-        }
-
-        if (command != null)
-        {
-            command.execute();
-        }
+    public void keyPressed(KeyEvent event) {
+        System.out.println("Key pressed: " + event.getKeyCode());
+        invoker.execute(event.getKeyCode());
     }
 }

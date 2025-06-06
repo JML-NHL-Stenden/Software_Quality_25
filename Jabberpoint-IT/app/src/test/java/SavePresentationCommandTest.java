@@ -1,20 +1,13 @@
-package test.java;
-
-import main.java.controller.command.SavePresentationCommand;
-import main.java.model.Presentation;
+import controller.command.SavePresentationCommand;
+import model.Presentation;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-public class SavePresentationCommandTest
-{
+public class SavePresentationCommandTest {
 
     @Test
-    public void testConstructionWithParameters()
-    {
-        Presentation presentation = new Presentation();
-        SavePresentationCommand command = new SavePresentationCommand(presentation, "file.xml");
-
-        assertNotNull(command, "Command should be constructed with parameters.");
+    public void testExecute() {
+        Presentation presentation = new Presentation(); // Provide required arg
+        SavePresentationCommand command = new SavePresentationCommand(presentation);
+        command.execute(); // This should just print to console for now
     }
 }

@@ -1,12 +1,10 @@
-package test.java;
-
-import main.java.controller.MenuController;
-import main.java.model.Presentation;
+import controller.MenuController;
+import model.Presentation;
 import org.junit.jupiter.api.Test;
 
-import java.awt.Frame;
+import java.awt.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MenuControllerTest
 {

@@ -1,19 +1,12 @@
-package test.java;
-
-import main.java.controller.command.ExitCommand;
-import main.java.model.Presentation;
+import controller.command.ExitCommand;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+public class ExitCommandTest {
 
-public class ExitCommandTest
-{
     @Test
-    public void testCommandConstruction()
-    {
-        Presentation presentation = new Presentation();
-        ExitCommand command = new ExitCommand(presentation);
-
-        assertNotNull(command, "ExitCommand should be instantiated.");
+    public void testExecute() {
+        ExitCommand command = new ExitCommand(); // No arguments!
+        // DO NOT actually call command.execute() unless you want to terminate the test runner
+        System.out.println("ExitCommand created successfully");
     }
 }

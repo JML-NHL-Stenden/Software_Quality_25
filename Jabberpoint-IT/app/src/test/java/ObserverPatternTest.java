@@ -1,9 +1,7 @@
-package test.java;
-
-import main.java.model.Presentation;
-import main.java.model.Slide;
-import main.java.view.PresentationObserver;
+import model.Presentation;
+import model.Slide;
 import org.junit.jupiter.api.Test;
+import view.PresentationObserver;
 
 import static org.junit.jupiter.api.Assertions.*;
 

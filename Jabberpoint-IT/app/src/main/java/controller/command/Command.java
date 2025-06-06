@@ -1,4 +1,4 @@
-package main.java.controller.command;
+package controller.command;
 
 /**
  * The Command interface for slide operations.
