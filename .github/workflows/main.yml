@@ -1,4 +1,4 @@
-name: Java CI
+name: JabberPoint CI/CD
 
 on:
   push:
@@ -9,30 +9,49 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ '17', '21' ]
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: ${{ matrix.java }}
           distribution: 'temurin'
 
-      - name: Download JUnit Platform Console
-        run: |
-          mkdir -p libs
-          curl -L -o libs/junit-platform-console-standalone.jar https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.0/junit-platform-console-standalone-1.10.0.jar
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
 
-      - name: Compile Java source and test files
-        run: |
-          mkdir -p out
-          find Jabberpoint-IT/src Jabberpoint-IT/test -name "*.java" > sources.txt
-          javac -cp libs/junit-platform-console-standalone.jar -d out @sources.txt
+      - name: Build and test with Maven
+        run: mvn clean verify -B
+        env:
+          JAVA_OPTS: -Djava.awt.headless=true
 
-      - name: Run all JUnit 5 tests
-        run: |
-          java -jar libs/junit-platform-console-standalone.jar \
-            --class-path out \
-            --scan-class-path
+      - name: Publish Test Results
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: JUnit Tests (${{ matrix.java }})
+          path: target/surefire-reports/*.xml
+          reporter: java-junit
+
+      - name: Upload JaCoCo Coverage Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report-${{ matrix.java }}
+          path: target/site/jacoco/
+
+      - name: Upload JAR Artifact
+        uses: actions/upload-artifact@v4
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        with:
+          name: jabberpoint-${{ matrix.java }}
+          path: target/jabberpoint-1.6-SNAPSHOT.jar

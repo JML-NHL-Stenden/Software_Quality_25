@@ -1,54 +1,38 @@
 import accessor.XMLAccessor;
 import model.Presentation;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class XMLAccessorTest
 {
     @Test
-    public void testSavePresentationCreatesFile() throws IOException
+    public void testSavePresentationCreatesFile(@TempDir Path tempDir) throws IOException
     {
         System.out.println("Running testSavePresentationCreatesFile: writing dummy presentation to disk.");
-
         XMLAccessor accessor = new XMLAccessor();
         Presentation presentation = new Presentation();
         presentation.setTitle("Test XML Save");
-
-        String filename = "test_save.xml";
+        String filename = tempDir.resolve("test_save.xml").toString();
         accessor.saveFile(presentation, filename);
-
-        File file = new File(filename);
-        assertTrue(file.exists(), "File should exist after saving.");
+        assertTrue(new File(filename).exists(), "File should exist after saving.");
         System.out.println("Result: XML file was saved to disk successfully.");
-
-        if (file.exists())
-        {
-            file.delete();
-        }
     }
 
     @Test
-    public void testSavePresentationHandlesEmptyPresentation() throws IOException
+    public void testSavePresentationHandlesEmptyPresentation(@TempDir Path tempDir) throws IOException
     {
         System.out.println("Running testSavePresentationHandlesEmptyPresentation: saving a blank presentation.");
-
         XMLAccessor accessor = new XMLAccessor();
         Presentation presentation = new Presentation();
-
-        String filename = "empty_pres.xml";
+        String filename = tempDir.resolve("empty_pres.xml").toString();
         accessor.saveFile(presentation, filename);
-
-        File file = new File(filename);
-        assertTrue(file.exists(), "File should exist for empty presentation.");
+        assertTrue(new File(filename).exists(), "File should exist for empty presentation.");
         System.out.println("Result: Empty presentation was saved successfully.");
-
-        if (file.exists())
-        {
-            file.delete();
-        }
     }
 }
