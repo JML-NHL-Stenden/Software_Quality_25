@@ -1,4 +1,4 @@
-name: Java CI
+name: Java CI With JUnit and Checkstyle
 
 on:
   push:
@@ -11,28 +11,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    - name: Checkout Code
+      uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
 
-      - name: Download JUnit Platform Console
-        run: |
-          mkdir -p libs
-          curl -L -o libs/junit-platform-console-standalone.jar https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.0/junit-platform-console-standalone-1.10.0.jar
+    - name: Download JUnit 5 Console Standalone
+      run: |
+        wget -O junit-platform-console-standalone.jar https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.1/junit-platform-console-standalone-1.10.1.jar
 
-      - name: Compile Java source and test files
-        run: |
-          mkdir -p out
-          find Jabberpoint-IT/src Jabberpoint-IT/test -name "*.java" > sources.txt
-          javac -cp libs/junit-platform-console-standalone.jar -d out @sources.txt
+    - name: Compile Java Source and Test Files
+      run: |
+        mkdir -p out
+        find Jabberpoint-IT/src -name "*.java" > sources.txt
+        javac -d out @sources.txt
 
-      - name: Run all JUnit 5 tests
-        run: |
-          java -jar libs/junit-platform-console-standalone.jar \
-            --class-path out \
-            --scan-class-path
+        find Jabberpoint-IT/test -name "*.java" > test_sources.txt
+        javac -cp out:junit-platform-console-standalone.jar -d out @test_sources.txt
+
+    - name: Run JUnit Tests
+      run: |
+        java -jar junit-platform-console-standalone.jar \
+          --class-path out \
+          --scan-classpath \
+          --details verbose
+
+    - name: Run Checkstyle (src and test)
+      run: |
+        wget https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.4/checkstyle-10.12.4-all.jar -O checkstyle.jar
+        java -jar checkstyle.jar -c checkstyle.xml -f xml -o checkstyle-result.xml Jabberpoint-IT/src Jabberpoint-IT/test
+
+    - name: Upload Checkstyle Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: checkstyle-report
+        path: checkstyle-result.xml
