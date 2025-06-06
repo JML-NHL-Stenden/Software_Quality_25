@@ -35,6 +35,11 @@ jobs:
             javac -cp out:junit-platform-console-standalone.jar -d out @test_sources.txt
           fi
 
+      - name: 🔍 Debug compiled test classes
+        run: |
+          echo "Listing all compiled test classes in /out:"
+          find out -name "*Test.class" || echo "No test .class files found in 'out/'"
+
       - name: Run JUnit Tests
         run: |
           java -jar junit-platform-console-standalone.jar \
@@ -48,7 +53,7 @@ jobs:
           java -jar checkstyle.jar -c checkstyle.xml -f xml -o checkstyle-result.xml Jabberpoint-IT/src test
           grep -q "<error " checkstyle-result.xml && echo "Checkstyle violations found!" && exit 1 || echo "No Checkstyle violations."
 
-      - name: Debug checkstyle output
+      - name: Debug Checkstyle Output
         run: |
           echo "--- File check ---"
           ls -l checkstyle-result.xml || echo "Checkstyle output not found"
