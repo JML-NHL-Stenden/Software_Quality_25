@@ -11,43 +11,53 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Set up Java
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-    - name: Download JUnit 5 Console Standalone
-      run: |
-        wget -O junit-platform-console-standalone.jar https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.1/junit-platform-console-standalone-1.10.1.jar
+      - name: Download JUnit 5 Console Standalone
+        run: |
+          wget -O junit-platform-console-standalone.jar https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.1/junit-platform-console-standalone-1.10.1.jar
 
-    - name: Compile Java Source and Test Files
-      run: |
-        mkdir -p out
-        find Jabberpoint-IT/src -name "*.java" > sources.txt
-        javac -d out @sources.txt
+      - name: Compile Java Source and Test Files
+        run: |
+          mkdir -p out
+          find Jabberpoint-IT/src -name "*.java" > sources.txt
+          javac -d out @sources.txt
+          
+          find test -name "*.java" > test_sources.txt || echo "No test sources"
+          if [ -s test_sources.txt ]; then
+            javac -cp out:junit-platform-console-standalone.jar -d out @test_sources.txt
+          fi
 
-        find Jabberpoint-IT/test -name "*.java" > test_sources.txt
-        javac -cp out:junit-platform-console-standalone.jar -d out @test_sources.txt
+      - name: Run JUnit Tests
+        run: |
+          java -jar junit-platform-console-standalone.jar \
+            --class-path out \
+            --scan-classpath \
+            --details verbose
 
-    - name: Run JUnit Tests
-      run: |
-        java -jar junit-platform-console-standalone.jar \
-          --class-path out \
-          --scan-classpath \
-          --details verbose
+      - name: Run Checkstyle (src and test)
+        run: |
+          wget https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.4/checkstyle-10.12.4-all.jar -O checkstyle.jar
+          java -jar checkstyle.jar -c checkstyle.xml -f xml -o checkstyle-result.xml Jabberpoint-IT/src test
+          grep -q "<error " checkstyle-result.xml && echo "Checkstyle violations found!" && exit 1 || echo "No Checkstyle violations."
 
-    - name: Run Checkstyle (src and test)
-      run: |
-        wget https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.4/checkstyle-10.12.4-all.jar -O checkstyle.jar
-        java -jar checkstyle.jar -c checkstyle.xml -f xml -o checkstyle-result.xml Jabberpoint-IT/src Jabberpoint-IT/test
+      - name: Debug checkstyle output
+        run: |
+          echo "--- File check ---"
+          ls -l checkstyle-result.xml || echo "Checkstyle output not found"
+          echo "--- Preview ---"
+          head -n 20 checkstyle-result.xml || echo "No output to preview"
 
-    - name: Upload Checkstyle Report
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: checkstyle-report
-        path: checkstyle-result.xml
+      - name: Upload Checkstyle Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkstyle-report
+          path: checkstyle-result.xml
