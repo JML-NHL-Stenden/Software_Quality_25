@@ -4,47 +4,103 @@
         "https://checkstyle.org/dtds/configuration_1_3.dtd">
 
 <module name="Checker">
-    <property name="severity" value="error"/>
-
     <module name="TreeWalker">
 
-        <!-- Naming Conventions -->
-        <module name="ClassName"/>
-        <module name="MethodName"/>
-        <module name="VariableName"/>
-        <module name="ConstantName">
-            <property name="format" value="^[A-Z][A-Z0-9_]*$"/>
+        <!-- NAMING CONVENTIONS -->
+        <module name="TypeName">
+            <property name="format" value="^[A-Z][a-zA-Z0-9]*$"/>
         </module>
+
+        <module name="MethodName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+        </module>
+
+        <module name="ParameterName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+        </module>
+
+        <module name="LocalVariableName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+        </module>
+
         <module name="MemberName">
             <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
         </module>
 
-        <!-- Braces on New Lines -->
-        <module name="LeftCurly">
-            <property name="option" value="nl"/>
-        </module>
-        <module name="RightCurly">
-            <property name="option" value="alone"/>
+        <module name="ConstantName">
+            <property name="format" value="^[A-Z][A-Z0-9_]*$"/>
         </module>
 
-        <!-- Indentation and Spacing -->
+        <module name="ClassTypeParameterName">
+            <property name="format" value="^[A-Z]$"/>
+        </module>
+
+        <module name="PackageName">
+            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+        </module>
+
+        <!-- LAYOUT RULES -->
         <module name="Indentation">
             <property name="basicOffset" value="4"/>
             <property name="braceAdjustment" value="0"/>
             <property name="caseIndent" value="4"/>
+            <property name="throwsIndent" value="4"/>
+            <property name="lineWrappingIndentation" value="8"/>
         </module>
 
-        <module name="WhitespaceAround"/>
-        <module name="WhitespaceAfter"/>
+        <module name="LeftCurly">
+            <property name="option" value="nl"/>
+            <property name="tokens" value="LITERAL_IF, LITERAL_ELSE, LITERAL_FOR, LITERAL_WHILE, METHOD_DEF, CTOR_DEF, CLASS_DEF"/>
+        </module>
+
+        <module name="RightCurly">
+            <property name="option" value="alone"/>
+        </module>
+
+        <module name="WhitespaceAround">
+            <property name="tokens" value="ASSIGN, PLUS, MINUS, DIV, STAR, MOD, EQUAL, NOT_EQUAL, LT, GT, GE, LE, BAND, BOR, BXOR, LAND, LOR"/>
+        </module>
+
+        <module name="NoWhitespaceBefore">
+            <property name="tokens" value="RPAREN"/>
+        </module>
+
+        <module name="WhitespaceAfter">
+            <property name="tokens" value="COMMA"/>
+        </module>
+
         <module name="MethodParamPad"/>
-        <module name="EmptyLineSeparator"/>
+        <module name="EmptyLineSeparator">
+            <property name="allowNoEmptyLineBetweenFields" value="false"/>
+        </module>
 
-        <!-- Require Braces in control statements -->
+        <!-- BLOCKS AND BRACES -->
         <module name="NeedBraces"/>
+        <module name="EmptyBlock">
+            <property name="option" value="text"/>
+        </module>
 
-        <!-- Max Line Length -->
+        <!-- CLASS STRUCTURE -->
+        <module name="DeclarationOrder">
+            <property name="order" value="STATIC_INIT, INSTANCE_INIT, FIELD_DEF, CTOR_DEF, METHOD_DEF"/>
+        </module>
+
+        <module name="VisibilityModifier"/>
+        <module name="ModifierOrder"/>
+
+        <!-- MISC -->
         <module name="LineLength">
             <property name="max" value="120"/>
         </module>
+
+        <module name="FileTabCharacter">
+            <property name="eachLine" value="true"/>
+        </module>
+
+        <module name="NewlineAtEndOfFile"/>
+        <module name="FinalLocalVariable"/>
+        <module name="MissingJavadocMethod"/>
+        <module name="MissingJavadocType"/>
+        <module name="JavadocStyle"/>
     </module>
 </module>
