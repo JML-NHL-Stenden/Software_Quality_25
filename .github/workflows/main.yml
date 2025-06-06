@@ -40,12 +40,22 @@ jobs:
           echo "Listing all compiled test classes in /out:"
           find out -name "*Test.class" || echo "No test .class files found in 'out/'"
 
-      - name: Run JUnit Tests
+      - name: Run JUnit Tests and Save Results
         run: |
+          mkdir -p test-results
           java -jar junit-platform-console-standalone.jar \
             --class-path out \
             --scan-classpath \
-            --details verbose
+            --details verbose \
+            --reports-dir=test-results \
+            --reports-theme=plain
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-results
+          path: test-results
 
       - name: Run Checkstyle (src and test)
         run: |
