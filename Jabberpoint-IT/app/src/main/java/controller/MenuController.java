@@ -1,7 +1,6 @@
 package main.java.controller;
 
 import main.java.accessor.XMLAccessor;
-import main.java.com.nhlstenden.controller.command.*;
 import main.java.accessor.Accessor;
 import main.java.controller.command.*;
 import main.java.model.Presentation;
