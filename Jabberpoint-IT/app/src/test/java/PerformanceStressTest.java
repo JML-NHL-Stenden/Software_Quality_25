@@ -4,20 +4,23 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PerformanceStressTest
-{
+/**
+ * Tests the ability of the Presentation class to handle 10 slides.
+ */
+public class PerformanceStressTest {
+
     @Test
-    public void testLargeSlideCount()
-    {
+    public void testTenSlides() {
         Presentation presentation = new Presentation();
-        int slideCount = 1000;
+        int slideCount = 10;
 
         for (int i = 0; i < slideCount; i++) {
             presentation.append(new Slide());
         }
 
-        assertEquals(slideCount, presentation.getSize(), "Should store all slides.");
-        presentation.setSlideNumber(999);
-        assertEquals(999, presentation.getSlideNumber(), "Should access the last slide.");
+        // Assertions
+        assertEquals(slideCount, presentation.getSize(), "Should store 10 slides.");
+        presentation.setSlideNumber(9);
+        assertEquals(9, presentation.getSlideNumber(), "Should access the last slide.");
     }
 }

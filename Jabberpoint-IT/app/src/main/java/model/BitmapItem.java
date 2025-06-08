@@ -26,7 +26,7 @@ public class BitmapItem extends SlideItem {
         }
 
         if (!loaded) {
-            System.err.println("❌ Failed to load image: " + name);
+            System.err.println("Failed to load image: " + name);
         }
     }
 
@@ -36,10 +36,10 @@ public class BitmapItem extends SlideItem {
                 bufferedImage = ImageIO.read(is);
                 return true;
             } else {
-                System.err.println("⚠️ Resource not found in classpath: " + resourcePath);
+                System.err.println("Resource not found in classpath: " + resourcePath);
             }
         } catch (IOException e) {
-            System.err.println("❌ Error reading image from classpath: " + resourcePath);
+            System.err.println("Error reading image from classpath: " + resourcePath);
             e.printStackTrace();
         }
         return false;
@@ -52,10 +52,10 @@ public class BitmapItem extends SlideItem {
                 bufferedImage = ImageIO.read(file);
                 return true;
             } else {
-                System.err.println("⚠️ File not found on disk: " + file.getAbsolutePath());
+                System.err.println("File not found on disk: " + file.getAbsolutePath());
             }
         } catch (IOException e) {
-            System.err.println("❌ Error reading image from file system: " + relativePath);
+            System.err.println("Error reading image from file system: " + relativePath);
             e.printStackTrace();
         }
         return false;

@@ -48,7 +48,7 @@ public class Presentation
     {
         if (number >= 0 && number < getSize()) {
             this.currentSlideNumber = number;
-            System.out.println("🔢 setSlideNumber(" + number + "), total slides: " + getSize());
+            System.out.println("setSlideNumber(" + number + "), total slides: " + getSize());
             notifyObservers();
         }
     }
@@ -77,7 +77,7 @@ public class Presentation
     public void append(Slide slide)
     {
         showList.add(slide);
-        System.out.println("🧩 Appended slide: " + slide.getTitle() + ", total now: " + getSize());
+        System.out.println("Appended slide: " + slide.getTitle() + ", total now: " + getSize());
     }
 
     public Slide getSlide(int number)

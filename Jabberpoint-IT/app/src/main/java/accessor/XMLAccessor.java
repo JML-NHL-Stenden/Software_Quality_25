@@ -67,7 +67,10 @@ public class XMLAccessor extends Accessor {
                 }
             }
 
-            presentation.append(builder.build());
+            var slide = builder.build();
+            if (slide != null) {
+                presentation.append(slide);
+            }
             builder.reset();
         }
     }
