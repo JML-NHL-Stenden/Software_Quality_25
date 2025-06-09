@@ -61,9 +61,9 @@ public class Slide
 
         Style style = Style.getStyle(0);
         g.setFont(style.getFont(scale));
-        g.setColor(style.color);
-        g.drawString(getTitle(), area.x + (int) (style.indent * scale), y);
-        y += style.leading;
+        g.setColor(style.getColor());
+        g.drawString(getTitle(), area.x + (int) (style.getIndent() * scale), y);
+        y += style.getLeading();
 
         if (items.isEmpty()) {
             g.drawString("[ EMPTY SLIDE ]", area.x + 50, y + 50);
@@ -71,8 +71,9 @@ public class Slide
         }
 
         for (SlideItem item : items) {
-            item.draw(area.x, y, scale, g, Style.getStyle(item.getLevel()), view);
-            y += item.getBoundingBox(g, view, scale, Style.getStyle(item.getLevel())).height;
+            Style itemStyle = Style.getStyle(item.getLevel());
+            item.draw(area.x, y, scale, g, itemStyle, view);
+            y += item.getBoundingBox(g, view, scale, itemStyle).height;
         }
     }
 

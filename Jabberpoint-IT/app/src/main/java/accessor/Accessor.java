@@ -28,7 +28,21 @@ public abstract class Accessor
         return new DemoPresentation();
     }
 
+    /**
+     * Laadt de presentatiegegevens uit het opgegeven bestand.
+     *
+     * @param presentation de presentatie die geladen moet worden
+     * @param filename     de naam van het bestand
+     * @throws IOException als er iets misgaat bij het laden
+     */
     public abstract void loadFile(Presentation presentation, String filename) throws IOException;
 
+    /**
+     * Slaat de presentatiegegevens op in het opgegeven bestand.
+     *
+     * @param presentation de presentatie die opgeslagen moet worden
+     * @param filename     de naam van het bestand
+     * @throws IOException als er iets misgaat bij het opslaan
+     */
     public abstract void saveFile(Presentation presentation, String filename) throws IOException;
 }

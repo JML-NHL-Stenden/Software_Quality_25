@@ -6,10 +6,18 @@ import model.Presentation;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+ * Handles keyboard input and delegates commands based on key codes.
+ */
 public class KeyController extends KeyAdapter
 {
     private final CommandInvoker invoker = new CommandInvoker();
 
+    /**
+     * Constructs the KeyController and binds key commands.
+     *
+     * @param presentation the presentation to operate on
+     */
     public KeyController(Presentation presentation)
     {
         // Slide navigation
@@ -33,6 +41,11 @@ public class KeyController extends KeyAdapter
         invoker.bind(KeyEvent.VK_Q, new ExitCommand());
     }
 
+    /**
+     * Handles key press events and executes the corresponding command.
+     *
+     * @param event the KeyEvent triggered by user input
+     */
     @Override
     public void keyPressed(KeyEvent event)
     {

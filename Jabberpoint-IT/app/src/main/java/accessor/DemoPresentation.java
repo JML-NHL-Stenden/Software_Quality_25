@@ -12,6 +12,13 @@ import java.io.IOException;
 public class DemoPresentation extends Accessor
 {
 
+    /**
+     * Loads a demonstration presentation into the given {@link Presentation} object.
+     *
+     * @param presentation   the presentation to populate
+     * @param unusedFilename a placeholder filename (ignored)
+     * @throws IOException if the loading fails
+     */
     @Override
     public void loadFile(Presentation presentation, String unusedFilename) throws IOException
     {
@@ -20,7 +27,6 @@ public class DemoPresentation extends Accessor
         }
 
         presentation.setTitle("Demo Presentation");
-
         SlideBuilder builder = new SlideBuilder();
 
         // First slide
@@ -37,7 +43,6 @@ public class DemoPresentation extends Accessor
             .addText(3, "Next slide: Up Arrow or Right Arrow")
             .addText(3, "Previous slide: Down Arrow or Left Arrow")
             .addText(3, "Quit: Q")
-
             .build();
         presentation.append(slide1);
         builder.reset();
@@ -66,10 +71,16 @@ public class DemoPresentation extends Accessor
             .build();
         presentation.append(slide3);
 
-        // ✅ Set first slide after appending all
         presentation.setSlideNumber(0);
     }
 
+    /**
+     * Saving is not supported for the demo presentation.
+     *
+     * @param presentation the presentation to save
+     * @param filename     the filename (unused)
+     * @throws IOException always thrown as saving is not supported
+     */
     @Override
     public void saveFile(Presentation presentation, String filename) throws IOException
     {

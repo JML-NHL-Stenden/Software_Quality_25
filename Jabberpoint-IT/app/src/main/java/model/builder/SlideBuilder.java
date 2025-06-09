@@ -14,10 +14,12 @@ import java.util.List;
  */
 public class SlideBuilder
 {
-
     private final List<SlideItem> items;
     private String title;
 
+    /**
+     * Constructs a new SlideBuilder with an empty item list.
+     */
     public SlideBuilder()
     {
         this.items = new ArrayList<>();
@@ -26,8 +28,8 @@ public class SlideBuilder
     /**
      * Sets the title of the slide.
      *
-     * @param title The slide title.
-     * @return This builder instance.
+     * @param title the slide title
+     * @return this builder instance
      */
     public SlideBuilder withTitle(String title)
     {
@@ -41,9 +43,9 @@ public class SlideBuilder
     /**
      * Adds a text item to the slide.
      *
-     * @param level   The level (indentation or hierarchy) of the text.
-     * @param content The actual text content.
-     * @return This builder instance.
+     * @param level   the level (indentation or hierarchy) of the text
+     * @param content the actual text content
+     * @return this builder instance
      */
     public SlideBuilder addText(int level, String content)
     {
@@ -57,9 +59,9 @@ public class SlideBuilder
     /**
      * Adds an image item to the slide.
      *
-     * @param level     The level of the image.
-     * @param imagePath The path to the image file.
-     * @return This builder instance.
+     * @param level     the level of the image
+     * @param imagePath the path to the image file
+     * @return this builder instance
      */
     public SlideBuilder addImage(int level, String imagePath)
     {
@@ -73,8 +75,8 @@ public class SlideBuilder
     /**
      * Builds the Slide object from the builder state.
      *
-     * @return A fully constructed Slide.
-     * @throws IllegalStateException if required fields are missing.
+     * @return a fully constructed Slide
+     * @throws IllegalStateException if required fields are missing
      */
     public Slide build()
     {
@@ -84,16 +86,18 @@ public class SlideBuilder
 
         Slide slide = new Slide();
         slide.setTitle(title);
+
         for (SlideItem item : items) {
             slide.append(item);
         }
+
         return slide;
     }
 
     /**
      * Resets the builder state, allowing reuse.
      *
-     * @return This builder instance, cleared and ready for new input.
+     * @return this builder instance, cleared and ready for new input
      */
     public SlideBuilder reset()
     {

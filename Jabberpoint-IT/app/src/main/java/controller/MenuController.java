@@ -11,13 +11,22 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/**
+ * The controller for the top menu bar. Handles File, View, and Help actions.
+ */
 public class MenuController extends MenuBar
 {
-
     private static final long serialVersionUID = 227L;
+
     private final Frame parent;
     private final Presentation presentation;
 
+    /**
+     * Constructs the menu controller and initializes the menu items.
+     *
+     * @param frame        the parent frame
+     * @param presentation the presentation model
+     */
     public MenuController(Frame frame, Presentation presentation)
     {
         this.parent = frame;
@@ -41,7 +50,7 @@ public class MenuController extends MenuBar
                     new GoToSlideCommand(presentation, slideNumber).execute();
                 }
                 catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(parent, "Invalid number");
+                    JOptionPane.showMessageDialog(parent, "Invalid number", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }));
@@ -52,6 +61,9 @@ public class MenuController extends MenuBar
         add(helpMenu);
     }
 
+    /**
+     * Opens and loads a presentation from XML.
+     */
     private void openPresentation()
     {
         Accessor xmlAccessor = new XMLAccessor();
@@ -65,6 +77,13 @@ public class MenuController extends MenuBar
         }
     }
 
+    /**
+     * Utility to create a MenuItem with an action listener.
+     *
+     * @param name     the menu item label
+     * @param listener the action listener
+     * @return the menu item
+     */
     private MenuItem createMenuItem(String name, ActionListener listener)
     {
         MenuItem item = new MenuItem(name);

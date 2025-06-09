@@ -13,10 +13,15 @@ import java.io.InputStream;
  */
 public class BitmapItem extends SlideItem
 {
-
     private final String imageName;
     private BufferedImage bufferedImage;
 
+    /**
+     * Constructs a BitmapItem with the given level and image name.
+     *
+     * @param level the indentation level
+     * @param name  the image filename or resource name
+     */
     public BitmapItem(int level, String name)
     {
         super(level);
@@ -53,7 +58,7 @@ public class BitmapItem extends SlideItem
     private boolean loadFromFileSystem(String relativePath)
     {
         try {
-            File file = new File("src/main/resources/" + relativePath); // fallback to resource-like path
+            File file = new File("src/main/resources/" + relativePath);
             if (file.exists()) {
                 bufferedImage = ImageIO.read(file);
                 return true;
@@ -69,11 +74,21 @@ public class BitmapItem extends SlideItem
         return false;
     }
 
+    /**
+     * Gets the image file name.
+     *
+     * @return the image name
+     */
     public String getName()
     {
         return imageName;
     }
 
+    /**
+     * Gets the buffered image object.
+     *
+     * @return the image
+     */
     public BufferedImage getBufferedImage()
     {
         return bufferedImage;

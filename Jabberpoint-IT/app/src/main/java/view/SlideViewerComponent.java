@@ -7,7 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * <p>SlideViewerComponent is a graphical component that can show slides.</p>
+ * A graphical component that renders a slide.
+ * Implements PresentationObserver to update when the slide changes.
  *
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
@@ -16,8 +17,8 @@ public class SlideViewerComponent extends JComponent implements PresentationObse
 
     private static final long serialVersionUID = 227L;
 
-    private static final Color BACKGROUND_COLOR = Color.white;
-    private static final Color TEXT_COLOR = Color.black;
+    private static final Color BACKGROUND_COLOR = Color.WHITE;
+    private static final Color TEXT_COLOR = Color.BLACK;
     private static final String FONT_NAME = "Dialog";
     private static final int FONT_STYLE = Font.BOLD;
     private static final int FONT_SIZE = 10;
@@ -25,10 +26,16 @@ public class SlideViewerComponent extends JComponent implements PresentationObse
     private static final int SLIDE_NUMBER_Y = 20;
 
     private final JFrame frame;
+    private final Font labelFont;
     private Slide slide;
-    private Font labelFont;
     private Presentation presentation;
 
+    /**
+     * Creates a new SlideViewerComponent.
+     *
+     * @param presentation the presentation model
+     * @param frame        the parent frame for setting the title
+     */
     public SlideViewerComponent(Presentation presentation, JFrame frame)
     {
         setBackground(BACKGROUND_COLOR);
@@ -44,6 +51,12 @@ public class SlideViewerComponent extends JComponent implements PresentationObse
         return new Dimension(Slide.WIDTH, Slide.HEIGHT);
     }
 
+    /**
+     * Called when the slide changes.
+     *
+     * @param presentation the presentation model
+     * @param newSlide     the new slide to display
+     */
     @Override
     public void onSlideChanged(Presentation presentation, Slide newSlide)
     {
@@ -65,8 +78,11 @@ public class SlideViewerComponent extends JComponent implements PresentationObse
 
         g.setFont(labelFont);
         g.setColor(TEXT_COLOR);
-        g.drawString("Slide " + (1 + presentation.getSlideNumber()) + " of " +
-            presentation.getSize(), SLIDE_NUMBER_X, SLIDE_NUMBER_Y);
+        g.drawString(
+            "Slide " + (1 + presentation.getSlideNumber()) + " of " + presentation.getSize(),
+            SLIDE_NUMBER_X,
+            SLIDE_NUMBER_Y
+        );
 
         Rectangle area = new Rectangle(0, SLIDE_NUMBER_Y, getWidth(), getHeight() - SLIDE_NUMBER_Y);
         slide.draw(g, area, this);

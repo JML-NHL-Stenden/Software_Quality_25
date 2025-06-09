@@ -10,9 +10,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
- * <p>The application window for a slideviewcomponent</p>
+ * The application window for displaying a presentation slide viewer.
+ * Sets up key listeners and menu controls.
  *
- * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
 public class SlideViewerFrame extends JFrame
@@ -23,29 +23,55 @@ public class SlideViewerFrame extends JFrame
     private static final long serialVersionUID = 3227L;
     private static final String WINDOW_TITLE = "Jabberpoint 1.6 - OU";
 
+    private final SlideViewerComponent slideViewerComponent;
+
+    /**
+     * Constructs the SlideViewerFrame.
+     *
+     * @param versionTitle the versioned title string
+     * @param presentation the presentation model
+     */
     public SlideViewerFrame(String versionTitle, Presentation presentation)
     {
         super(versionTitle);
-        SlideViewerComponent slideViewerComponent = new SlideViewerComponent(presentation, this);
+        this.slideViewerComponent = new SlideViewerComponent(presentation, this);
         initializeWindow(slideViewerComponent, presentation);
     }
 
-    // Initializes and configures the application window
+    /**
+     * Sets up the main window with layout, controls, and listeners.
+     *
+     * @param component    the component used to render slides
+     * @param presentation the current presentation
+     */
     private void initializeWindow(SlideViewerComponent component, Presentation presentation)
     {
         setTitle(WINDOW_TITLE);
         setSize(new Dimension(WIDTH, HEIGHT));
         getContentPane().add(component);
+
+        // Handle window close action
         addWindowListener(new WindowAdapter()
         {
+            @Override
             public void windowClosing(WindowEvent e)
             {
-                System.exit(0); // Could be improved by calling a proper shutdown service
+                shutdown();
             }
         });
 
-        addKeyListener(new KeyController(presentation)); // key controls
-        setMenuBar(new MenuController(this, presentation)); // menu controller
+        // Input and menu handlers
+        addKeyListener(new KeyController(presentation));
+        setMenuBar(new MenuController(this, presentation));
         setVisible(true);
+    }
+
+    /**
+     * Gracefully shuts down the application.
+     * Can be expanded for resource cleanup.
+     */
+    private void shutdown()
+    {
+        System.exit(0);
     }
 }
