@@ -10,12 +10,6 @@
         <property name="max" value="120"/>
     </module>
 
-    <!-- Force this. usage -->
-    <module name="RequireThis">
-        <property name="checkFields" value="true"/>
-        <property name="checkMethods" value="true"/>
-    </module>
-
     <!-- Avoid magic numbers -->
     <module name="MagicNumber">
         <property name="ignoreNumbers" value="-1,0,1"/>
@@ -30,7 +24,7 @@
         <property name="separated" value="true"/>
     </module>
 
-    <!-- TreeWalker: structural and style rules -->
+    <!-- TreeWalker: structure and style rules -->
     <module name="TreeWalker">
 
         <!-- Naming -->
@@ -81,14 +75,17 @@
         <module name="DeclarationOrder"/>
         <module name="ModifierOrder"/>
         <module name="VisibilityModifier"/>
+        <module name="FinalLocalVariable"/>
+
+        <!-- this. usage -->
+        <module name="RequireThis">
+            <property name="checkFields" value="true"/>
+            <property name="checkMethods" value="true"/>
+        </module>
 
         <!-- Documentation -->
         <module name="JavadocStyle"/>
         <module name="MissingJavadocType"/>
         <module name="MissingJavadocMethod"/>
-
-        <!-- Others -->
-        <module name="FinalLocalVariable"/>
-
     </module>
 </module>
