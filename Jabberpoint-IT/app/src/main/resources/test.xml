@@ -1,0 +1,17 @@
+<presentation showtitle="JabberPoint Demo Presentation">
+    <slide>
+        <item kind="text" level="0">Welcome to JabberPoint</item>
+        <item kind="text" level="1">This is a simple Java presentation tool.</item>
+        <item kind="text" level="1">Supports text and image items.</item>
+    </slide>
+    <slide>
+        <item kind="text" level="0">Second Slide</item>
+        <item kind="text" level="1">- Point A</item>
+        <item kind="text" level="1">- Point B</item>
+        <item kind="text" level="1">- Point C</item>
+    </slide>
+    <slide>
+        <item kind="text" level="0">Image Example</item>
+        <item kind="image" level="1">example-image.png</item>
+    </slide>
+</presentation>
