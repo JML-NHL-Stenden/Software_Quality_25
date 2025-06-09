@@ -21,7 +21,7 @@ public class SlideBuilderTest
         Slide slide = builder
             .withTitle("Sample Slide")
             .addText(1, "This is a text item")
-            .addImage(2, "image.png")
+            .addImage(2, "test.png")
             .build();
 
         assertEquals("Sample Slide", slide.getTitle(), "Title should match");
@@ -35,7 +35,7 @@ public class SlideBuilderTest
         assertEquals("This is a text item", text.getText(), "Text content should match");
 
         BitmapItem image = (BitmapItem) items.get(1);
-        assertEquals("image.png", image.getName(), "Image path should match");
+        assertEquals("test.png", image.getName(), "Image path should match");
 
         System.out.println("Result: Slide built with title, text, and image as expected.");
     }
