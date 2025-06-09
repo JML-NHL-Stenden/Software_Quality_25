@@ -29,7 +29,7 @@ public class BitmapItem extends SlideItem {
     }
 
     private boolean loadFromClasspath(String resourcePath) {
-        URL resourceUrl = getClass().getClassLoader().getResource(resourcePath);
+        URL resourceUrl = getClass().getResource("/" + resourcePath);  // FIXED
         if (resourceUrl != null) {
             image = new ImageIcon(resourceUrl).getImage();
             return true;
