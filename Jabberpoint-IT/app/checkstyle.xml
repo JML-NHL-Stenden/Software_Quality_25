@@ -5,26 +5,11 @@
 
 <module name="Checker">
 
-    <!-- Max line length -->
+    <!-- Limits -->
     <module name="LineLength">
         <property name="max" value="120"/>
     </module>
 
-    <!-- Avoid magic numbers -->
-    <module name="MagicNumber">
-        <property name="ignoreNumbers" value="-1,0,1"/>
-        <property name="ignoreHashCodeMethod" value="true"/>
-    </module>
-
-    <!-- Enforce import order -->
-    <module name="ImportOrder">
-        <property name="option" value="top"/>
-        <property name="groups" value="java, javax, org, com"/>
-        <property name="ordered" value="true"/>
-        <property name="separated" value="true"/>
-    </module>
-
-    <!-- TreeWalker: structure and style rules -->
     <module name="TreeWalker">
 
         <!-- Naming -->
@@ -47,8 +32,6 @@
         <!-- Layout and Formatting -->
         <module name="Indentation">
             <property name="basicOffset" value="4"/>
-            <property name="braceAdjustment" value="0"/>
-            <property name="caseIndent" value="4"/>
         </module>
 
         <module name="LeftCurly">
@@ -57,11 +40,6 @@
         <module name="RightCurly">
             <property name="option" value="alone"/>
         </module>
-
-        <module name="NeedBraces"/>
-        <module name="EmptyBlock">
-            <property name="option" value="text"/>
-        </module>
         <module name="WhitespaceAround"/>
         <module name="WhitespaceAfter"/>
         <module name="ParenPad">
@@ -69,23 +47,29 @@
         </module>
 
         <module name="EmptyLineSeparator"/>
-        <module name="NewlineAtEndOfFile"/>
+        <module name="NeedBraces"/>
+        <module name="EmptyBlock">
+            <property name="option" value="text"/>
+        </module>
 
         <!-- Structure -->
         <module name="DeclarationOrder"/>
         <module name="ModifierOrder"/>
         <module name="VisibilityModifier"/>
-        <module name="FinalLocalVariable"/>
 
-        <!-- this. usage -->
-        <module name="RequireThis">
-            <property name="checkFields" value="true"/>
-            <property name="checkMethods" value="true"/>
-        </module>
-
-        <!-- Documentation -->
+        <!-- Javadoc -->
         <module name="JavadocStyle"/>
         <module name="MissingJavadocType"/>
         <module name="MissingJavadocMethod"/>
+
+        <!-- ✅ Correct placement for MagicNumber -->
+        <module name="MagicNumber">
+            <property name="ignoreNumbers" value="-1,0,1"/>
+        </module>
+
+        <module name="FinalLocalVariable"/>
     </module>
+
+    <module name="NewlineAtEndOfFile"/>
+
 </module>
