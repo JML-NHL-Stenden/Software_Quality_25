@@ -29,7 +29,10 @@ public class BitmapItem extends SlideItem {
     }
 
     private boolean loadFromClasspath(String resourcePath) {
-        URL resourceUrl = getClass().getResource("/" + resourcePath);  // FIXED
+        // Load from classpath root
+        URL resourceUrl = getClass().getResource("/" + resourcePath);
+        System.out.println("DEBUG: Trying to load from classpath: /" + resourcePath);
+        System.out.println("DEBUG: Found URL = " + resourceUrl);
         if (resourceUrl != null) {
             image = new ImageIcon(resourceUrl).getImage();
             return true;
@@ -40,7 +43,7 @@ public class BitmapItem extends SlideItem {
     }
 
     private boolean loadFromFileSystem(String relativePath) {
-        File file = new File("src/main/resources/" + relativePath);
+        File file = new File("app/src/main/resources/" + relativePath);
         if (file.exists()) {
             image = new ImageIcon(file.getAbsolutePath()).getImage();
             return true;
