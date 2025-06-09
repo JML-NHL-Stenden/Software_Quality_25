@@ -1,9 +1,0 @@
-<!DOCTYPE presentation SYSTEM "jabberpoint.dtd">
-<presentation>
-    <showtitle>Test Presentation</showtitle>
-    <slide>
-        <title>Welcome</title>
-        <item level="1" kind="text">Hello, world!</item>
-        <item level="2" kind="image">test.png</item>
-    </slide>
-</presentation>

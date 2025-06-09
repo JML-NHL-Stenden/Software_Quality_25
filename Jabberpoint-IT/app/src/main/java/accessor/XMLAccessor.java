@@ -15,71 +15,89 @@ import java.io.IOException;
 /**
  * XMLAccessor loads a Presentation from an XML file.
  */
-public class XMLAccessor extends Accessor {
+public class XMLAccessor extends Accessor
+{
 
     @Override
-    public void loadFile(Presentation presentation, String filename) throws IOException {
-        try {
-            File xmlFile = new File(filename);
-            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document document = builder.parse(xmlFile);
-            Element doc = document.getDocumentElement();
+    public void loadFile(Presentation presentation, String filename) throws IOException
+    {
+        try
+        {
+            final File xmlFile = new File(filename);
+            final DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            final Document document = builder.parse(xmlFile);
+            final Element doc = document.getDocumentElement();
 
             presentation.setTitle(getShowTitle(doc));
-            NodeList slides = doc.getElementsByTagName("slide");
+            final NodeList slides = doc.getElementsByTagName("slide");
 
-            for (int slideIndex = 0; slideIndex < slides.getLength(); slideIndex++) {
-                Element xmlSlide = (Element) slides.item(slideIndex);
-                Slide slide = new Slide();
+            for (int slideIndex = 0; slideIndex < slides.getLength(); slideIndex++)
+            {
+                final Element xmlSlide = (Element) slides.item(slideIndex);
+                final Slide slide = new Slide();
 
                 slide.setTitle(getTitle(xmlSlide));
 
-                NodeList items = xmlSlide.getElementsByTagName("item");
-                for (int itemIndex = 0; itemIndex < items.getLength(); itemIndex++) {
-                    Element item = (Element) items.item(itemIndex);
+                final NodeList items = xmlSlide.getElementsByTagName("item");
+                for (int itemIndex = 0; itemIndex < items.getLength(); itemIndex++)
+                {
+                    final Element item = (Element) items.item(itemIndex);
                     loadSlideItem(slide, item);
                 }
 
                 presentation.append(slide);
             }
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new IOException("Error loading presentation: " + e.getMessage(), e);
         }
     }
 
-    private String getShowTitle(Element doc) {
-        NodeList showTitleList = doc.getElementsByTagName("showtitle");
-        if (showTitleList.getLength() > 0 && showTitleList.item(0).getTextContent() != null) {
+    private String getShowTitle(Element doc)
+    {
+        final NodeList showTitleList = doc.getElementsByTagName("showtitle");
+        if (showTitleList.getLength() > 0 && showTitleList.item(0).getTextContent() != null)
+        {
             return showTitleList.item(0).getTextContent();
         }
         return "";
     }
 
-    private String getTitle(Element slide) {
-        NodeList titles = slide.getElementsByTagName("title");
-        if (titles.getLength() > 0 && titles.item(0).getTextContent() != null) {
+    private String getTitle(Element slide)
+    {
+        final NodeList titles = slide.getElementsByTagName("title");
+        if (titles.getLength() > 0 && titles.item(0).getTextContent() != null)
+        {
             return titles.item(0).getTextContent();
         }
         return "";
     }
 
-    private void loadSlideItem(Slide slide, Element item) {
-        int level = Integer.parseInt(item.getAttribute("level"));
-        String kind = item.getAttribute("kind");
-        String content = item.getTextContent();
+    private void loadSlideItem(Slide slide, Element item)
+    {
+        final int level = Integer.parseInt(item.getAttribute("level"));
+        final String kind = item.getAttribute("kind");
+        final String content = item.getTextContent();
 
-        if ("text".equals(kind)) {
+        if ("text".equals(kind))
+        {
             slide.append(new TextItem(level, content));
-        } else if ("image".equals(kind)) {
+        }
+        else if ("image".equals(kind))
+        {
             slide.append(new BitmapItem(level, content));
-        } else {
+        }
+        else
+        {
             System.err.println("Unknown item kind: " + kind);
         }
     }
 
     @Override
-    public void saveFile(Presentation presentation, String filename) throws IOException {
+    public void saveFile(Presentation presentation, String filename) throws IOException
+    {
         throw new IOException("Saving to XML is not implemented.");
     }
 }

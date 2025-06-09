@@ -35,7 +35,7 @@ public abstract class Accessor
      * @param filename     de naam van het bestand
      * @throws IOException als er iets misgaat bij het laden
      */
-    public abstract void loadFile(Presentation presentation, String filename) throws IOException;
+    public abstract void loadFile(final Presentation presentation, final String filename) throws IOException;
 
     /**
      * Slaat de presentatiegegevens op in het opgegeven bestand.
@@ -44,5 +44,5 @@ public abstract class Accessor
      * @param filename     de naam van het bestand
      * @throws IOException als er iets misgaat bij het opslaan
      */
-    public abstract void saveFile(Presentation presentation, String filename) throws IOException;
+    public abstract void saveFile(final Presentation presentation, final String filename) throws IOException;
 }
