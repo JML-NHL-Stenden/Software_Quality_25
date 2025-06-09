@@ -4,6 +4,12 @@
         "https://checkstyle.org/dtds/configuration_1_3.dtd">
 
 <module name="Checker">
+
+    <!-- Limits (must be outside TreeWalker) -->
+    <module name="LineLength">
+        <property name="max" value="120"/>
+    </module>
+
     <module name="TreeWalker">
 
         <!-- Naming -->
@@ -51,17 +57,13 @@
         <module name="ModifierOrder"/>
         <module name="VisibilityModifier"/>
 
-        <!-- Javadoc (optional but good for documentation) -->
+        <!-- Javadoc -->
         <module name="JavadocStyle"/>
         <module name="MissingJavadocType"/>
         <module name="MissingJavadocMethod"/>
 
-        <!-- Limits -->
-        <module name="LineLength">
-            <property name="max" value="120"/>
-        </module>
-
         <module name="FinalLocalVariable"/>
         <module name="NewlineAtEndOfFile"/>
+
     </module>
 </module>
