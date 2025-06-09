@@ -1,4 +1,4 @@
-name: Java CI with Manual JUnit and Checkstyle
+name: Java CI with JUnit, Checkstyle, and JAR Packaging
 
 on:
   push:
@@ -58,19 +58,16 @@ jobs:
 
       - name: Run Checkstyle (Readable and XML Output)
         run: |
-          # Human-readable warnings in console:
           java -jar checkstyle.jar -c Jabberpoint-IT/app/checkstyle.xml \
             -f plain \
             Jabberpoint-IT/app/src/main/java \
             Jabberpoint-IT/app/src/test/java || echo "Checkstyle violations found"
 
-          # XML output for uploading:
           java -jar checkstyle.jar -c Jabberpoint-IT/app/checkstyle.xml \
             -f xml -o checkstyle-result.xml \
             Jabberpoint-IT/app/src/main/java \
             Jabberpoint-IT/app/src/test/java || echo "Checkstyle XML generation failed"
           
-          # Ensure file always exists to prevent upload errors
           [ -f checkstyle-result.xml ] || touch checkstyle-result.xml
 
       - name: Upload Checkstyle Report
@@ -79,3 +76,15 @@ jobs:
         with:
           name: checkstyle-report
           path: checkstyle-result.xml
+
+      - name: Package Executable JAR
+        run: |
+          mkdir -p build
+          jar --create --file=build/app.jar --main-class=Main \
+            -C out .
+
+      - name: Upload Executable JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: application-jar
+          path: build/app.jar
