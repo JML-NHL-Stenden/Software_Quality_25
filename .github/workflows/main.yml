@@ -56,12 +56,22 @@ jobs:
       - name: Download Checkstyle
         run: wget https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.4/checkstyle-10.12.4-all.jar -O checkstyle.jar
 
-      - name: Run Checkstyle (Minimal Output)
+      - name: Run Checkstyle (Readable and XML Output)
         run: |
+          # Human-readable warnings in console:
+          java -jar checkstyle.jar -c Jabberpoint-IT/app/checkstyle.xml \
+            -f plain \
+            Jabberpoint-IT/app/src/main/java \
+            Jabberpoint-IT/app/src/test/java || echo "Checkstyle violations found"
+
+          # XML output for uploading:
           java -jar checkstyle.jar -c Jabberpoint-IT/app/checkstyle.xml \
             -f xml -o checkstyle-result.xml \
             Jabberpoint-IT/app/src/main/java \
-            Jabberpoint-IT/app/src/test/java || echo "Checkstyle failed"
+            Jabberpoint-IT/app/src/test/java || echo "Checkstyle XML generation failed"
+          
+          # Ensure file always exists to prevent upload errors
+          [ -f checkstyle-result.xml ] || touch checkstyle-result.xml
 
       - name: Upload Checkstyle Report
         if: always()
