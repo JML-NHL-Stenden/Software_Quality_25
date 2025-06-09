@@ -1,29 +1,20 @@
 package model;
 
-import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.net.URL;
 
 /**
  * Class that represents a bitmap item in a slide.
  */
-public class BitmapItem extends SlideItem
-{
-    private final String imageName;
-    private BufferedImage bufferedImage;
+public class BitmapItem extends SlideItem {
 
-    /**
-     * Constructs a BitmapItem with the given level and image name.
-     *
-     * @param level the indentation level
-     * @param name  the image filename or resource name
-     */
-    public BitmapItem(int level, String name)
-    {
+    private final String imageName;
+    private Image image;
+
+    public BitmapItem(int level, String name) {
         super(level);
         this.imageName = name;
 
@@ -37,93 +28,57 @@ public class BitmapItem extends SlideItem
         }
     }
 
-    private boolean loadFromClasspath(String resourcePath)
-    {
-        try (InputStream is = getClass().getClassLoader().getResourceAsStream(resourcePath)) {
-            if (is!=null) {
-                bufferedImage = ImageIO.read(is);
-                return true;
-            }
-            else {
-                System.err.println("Resource not found in classpath: " + resourcePath);
-            }
+    private boolean loadFromClasspath(String resourcePath) {
+        URL resourceUrl = getClass().getClassLoader().getResource(resourcePath);
+        if (resourceUrl != null) {
+            image = new ImageIcon(resourceUrl).getImage();
+            return true;
+        } else {
+            System.err.println("Resource not found in classpath: " + resourcePath);
+            return false;
         }
-        catch (IOException e) {
-            System.err.println("Error reading image from classpath: " + resourcePath);
-            e.printStackTrace();
-        }
-        return false;
     }
 
-    private boolean loadFromFileSystem(String relativePath)
-    {
-        try {
-            File file = new File("src/main/resources/" + relativePath);
-            if (file.exists()) {
-                bufferedImage = ImageIO.read(file);
-                return true;
-            }
-            else {
-                System.err.println("File not found on disk: " + file.getAbsolutePath());
-            }
+    private boolean loadFromFileSystem(String relativePath) {
+        File file = new File("src/main/resources/" + relativePath);
+        if (file.exists()) {
+            image = new ImageIcon(file.getAbsolutePath()).getImage();
+            return true;
+        } else {
+            System.err.println("File not found on disk: " + file.getAbsolutePath());
+            return false;
         }
-        catch (IOException e) {
-            System.err.println("Error reading image from file system: " + relativePath);
-            e.printStackTrace();
-        }
-        return false;
     }
 
-    /**
-     * Gets the image file name.
-     *
-     * @return the image name
-     */
-    public String getName()
-    {
+    public String getName() {
         return imageName;
     }
 
-    /**
-     * Gets the buffered image object.
-     *
-     * @return the image
-     */
-    public BufferedImage getBufferedImage()
-    {
-        return bufferedImage;
+    public Image getImage() {
+        return image;
     }
 
     @Override
-    public void draw(int x, int y, float scale, Graphics g, Style style, ImageObserver observer)
-    {
-        if (bufferedImage!=null) {
-            g.drawImage(
-                bufferedImage,
-                x,
-                y,
-                (int) (bufferedImage.getWidth() * scale),
-                (int) (bufferedImage.getHeight() * scale),
-                observer
-            );
+    public void draw(int x, int y, float scale, Graphics g, Style style, ImageObserver observer) {
+        if (image != null) {
+            int width = (int) (image.getWidth(observer) * scale);
+            int height = (int) (image.getHeight(observer) * scale);
+            g.drawImage(image, x, y, width, height, observer);
         }
     }
 
     @Override
-    public Rectangle getBoundingBox(Graphics g, ImageObserver observer, float scale, Style style)
-    {
-        if (bufferedImage==null) {
+    public Rectangle getBoundingBox(Graphics g, ImageObserver observer, float scale, Style style) {
+        if (image == null) {
             return new Rectangle(0, 0, 0, 0);
         }
-
-        int width = (int) (bufferedImage.getWidth(observer) * scale);
-        int height = (int) (bufferedImage.getHeight(observer) * scale);
+        int width = (int) (image.getWidth(observer) * scale);
+        int height = (int) (image.getHeight(observer) * scale);
         return new Rectangle(0, 0, width, height);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "BitmapItem[" + getLevel() + "," + imageName + "]";
     }
 }

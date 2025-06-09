@@ -1,38 +1,28 @@
 package controller;
 
-import accessor.Accessor;
 import accessor.XMLAccessor;
 import controller.command.*;
+import accessor.Accessor;
 import model.Presentation;
 import view.AboutBox;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import javax.swing.*;
 
-/**
- * The controller for the top menu bar. Handles File, View, and Help actions.
- */
-public class MenuController extends MenuBar
-{
+public class MenuController extends MenuBar {
+
     private static final long serialVersionUID = 227L;
-
     private final Frame parent;
     private final Presentation presentation;
 
-    /**
-     * Constructs the menu controller and initializes the menu items.
-     *
-     * @param frame        the parent frame
-     * @param presentation the presentation model
-     */
-    public MenuController(Frame frame, Presentation presentation)
-    {
+    public MenuController(Frame frame, Presentation presentation) {
         this.parent = frame;
         this.presentation = presentation;
 
         Menu fileMenu = new Menu("File");
+        fileMenu.add(createMenuItem("New", e -> new NewPresentationCommand(presentation, parent).execute()));
         fileMenu.add(createMenuItem("Open", e -> openPresentation()));
         fileMenu.add(createMenuItem("Save", e -> new SavePresentationCommand(presentation).execute()));
         fileMenu.add(createMenuItem("Exit", e -> new ExitCommand().execute()));
@@ -41,16 +31,14 @@ public class MenuController extends MenuBar
         Menu viewMenu = new Menu("View");
         viewMenu.add(createMenuItem("Next", e -> new NextSlideCommand(presentation).execute()));
         viewMenu.add(createMenuItem("Prev", e -> new PrevSlideCommand(presentation).execute()));
-        viewMenu.add(createMenuItem("Go to", e ->
-        {
+        viewMenu.add(createMenuItem("Go to", e -> {
             String input = JOptionPane.showInputDialog("Enter slide number:");
-            if (input!=null) {
+            if (input != null) {
                 try {
                     int slideNumber = Integer.parseInt(input);
                     new GoToSlideCommand(presentation, slideNumber).execute();
-                }
-                catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(parent, "Invalid number", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(parent, "Invalid number");
                 }
             }
         }));
@@ -61,31 +49,18 @@ public class MenuController extends MenuBar
         add(helpMenu);
     }
 
-    /**
-     * Opens and loads a presentation from XML.
-     */
-    private void openPresentation()
-    {
+    private void openPresentation() {
         Accessor xmlAccessor = new XMLAccessor();
         try {
             presentation.clear();
             xmlAccessor.loadFile(presentation, "test.xml");
             presentation.setSlideNumber(0);
-        }
-        catch (IOException exc) {
+        } catch (IOException exc) {
             JOptionPane.showMessageDialog(parent, "IO Error: " + exc, "Load Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    /**
-     * Utility to create a MenuItem with an action listener.
-     *
-     * @param name     the menu item label
-     * @param listener the action listener
-     * @return the menu item
-     */
-    private MenuItem createMenuItem(String name, ActionListener listener)
-    {
+    private MenuItem createMenuItem(String name, ActionListener listener) {
         MenuItem item = new MenuItem(name);
         item.addActionListener(listener);
         return item;

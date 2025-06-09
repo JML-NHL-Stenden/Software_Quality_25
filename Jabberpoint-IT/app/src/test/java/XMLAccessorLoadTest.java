@@ -1,3 +1,5 @@
+package test;
+
 import accessor.XMLAccessor;
 import model.Presentation;
 import model.Slide;
@@ -9,17 +11,15 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class XMLAccessorLoadTest
-{
+public class XMLAccessorLoadTest {
 
     @Test
-    public void testLoadFileWithSingleSlide() throws IOException
-    {
+    public void testLoadFileWithSingleSlide() throws IOException {
         System.out.println("Running testLoadFileWithSingleSlide...");
 
         String xmlContent = """
             <presentation>
-                <title>Test Presentation</title>
+                <showtitle>Test Presentation</showtitle>
                 <slide>
                     <title>Welcome</title>
                     <item level="1" kind="text">Hello, world!</item>

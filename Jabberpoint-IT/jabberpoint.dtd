@@ -1,0 +1,8 @@
+<!ELEMENT presentation (showtitle?, slide+)>
+        <!ELEMENT showtitle (#PCDATA)>
+        <!ELEMENT slide (title?, item*)>
+        <!ELEMENT title (#PCDATA)>
+        <!ELEMENT item (#PCDATA)>
+        <!ATTLIST item
+                kind (text|image) #REQUIRED
+                level CDATA #REQUIRED>
