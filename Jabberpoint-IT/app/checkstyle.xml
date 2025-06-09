@@ -5,11 +5,32 @@
 
 <module name="Checker">
 
-    <!-- Limits (must be outside TreeWalker) -->
+    <!-- Max line length -->
     <module name="LineLength">
         <property name="max" value="120"/>
     </module>
 
+    <!-- Force this. usage -->
+    <module name="RequireThis">
+        <property name="checkFields" value="true"/>
+        <property name="checkMethods" value="true"/>
+    </module>
+
+    <!-- Avoid magic numbers -->
+    <module name="MagicNumber">
+        <property name="ignoreNumbers" value="-1,0,1"/>
+        <property name="ignoreHashCodeMethod" value="true"/>
+    </module>
+
+    <!-- Enforce import order -->
+    <module name="ImportOrder">
+        <property name="option" value="top"/>
+        <property name="groups" value="java, javax, org, com"/>
+        <property name="ordered" value="true"/>
+        <property name="separated" value="true"/>
+    </module>
+
+    <!-- TreeWalker: structural and style rules -->
     <module name="TreeWalker">
 
         <!-- Naming -->
@@ -32,6 +53,8 @@
         <!-- Layout and Formatting -->
         <module name="Indentation">
             <property name="basicOffset" value="4"/>
+            <property name="braceAdjustment" value="0"/>
+            <property name="caseIndent" value="4"/>
         </module>
 
         <module name="LeftCurly">
@@ -40,6 +63,11 @@
         <module name="RightCurly">
             <property name="option" value="alone"/>
         </module>
+
+        <module name="NeedBraces"/>
+        <module name="EmptyBlock">
+            <property name="option" value="text"/>
+        </module>
         <module name="WhitespaceAround"/>
         <module name="WhitespaceAfter"/>
         <module name="ParenPad">
@@ -47,23 +75,20 @@
         </module>
 
         <module name="EmptyLineSeparator"/>
-        <module name="NeedBraces"/>
-        <module name="EmptyBlock">
-            <property name="option" value="text"/>
-        </module>
+        <module name="NewlineAtEndOfFile"/>
 
         <!-- Structure -->
         <module name="DeclarationOrder"/>
         <module name="ModifierOrder"/>
         <module name="VisibilityModifier"/>
 
-        <!-- Javadoc -->
+        <!-- Documentation -->
         <module name="JavadocStyle"/>
         <module name="MissingJavadocType"/>
         <module name="MissingJavadocMethod"/>
 
+        <!-- Others -->
         <module name="FinalLocalVariable"/>
-        <module name="NewlineAtEndOfFile"/>
 
     </module>
 </module>
