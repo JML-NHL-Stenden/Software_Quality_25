@@ -2,27 +2,31 @@ package accessor;
 
 import model.Presentation;
 import model.builder.SlideBuilder;
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
-import java.io.InputStream;
-import java.io.IOException;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Loads a Presentation from an XML file.
  */
-public class XMLAccessor extends Accessor {
+public class XMLAccessor extends Accessor
+{
 
     @Override
-    public void loadFile(Presentation presentation, String filename) throws IOException {
+    public void loadFile(Presentation presentation, String filename) throws IOException
+    {
         try {
             InputStream input = getClass().getClassLoader().getResourceAsStream(filename);
 
             // Fallback: try absolute file path
-            if (input == null) {
+            if (input==null) {
                 File file = new File(filename);
                 if (!file.exists()) {
                     throw new IOException("File not found: " + filename);
@@ -36,12 +40,14 @@ public class XMLAccessor extends Accessor {
 
             parsePresentation(presentation, root);
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new IOException("Error loading presentation: " + e.getMessage(), e);
         }
     }
 
-    private void parsePresentation(Presentation presentation, Element root) {
+    private void parsePresentation(Presentation presentation, Element root)
+    {
         presentation.setTitle(getTextContent(root, "title"));
         NodeList slideNodes = root.getElementsByTagName("slide");
 
@@ -62,27 +68,32 @@ public class XMLAccessor extends Accessor {
 
                 if ("text".equalsIgnoreCase(kind)) {
                     builder.addText(level, content);
-                } else if ("image".equalsIgnoreCase(kind)) {
+                }
+                else if ("image".equalsIgnoreCase(kind)) {
                     builder.addImage(level, content);
                 }
             }
 
             var slide = builder.build();
-            if (slide != null) {
+            if (slide!=null) {
                 presentation.append(slide);
             }
             builder.reset();
         }
     }
 
-    private String getTextContent(Element parent, String tagName) {
+    private String getTextContent(Element parent, String tagName)
+    {
         NodeList nodes = parent.getElementsByTagName(tagName);
-        if (nodes.getLength() == 0) return "";
+        if (nodes.getLength()==0) {
+            return "";
+        }
         return nodes.item(0).getTextContent();
     }
 
     @Override
-    public void saveFile(Presentation presentation, String filename) throws IOException {
+    public void saveFile(Presentation presentation, String filename) throws IOException
+    {
         throw new UnsupportedOperationException("Saving XML is not implemented yet.");
     }
 }

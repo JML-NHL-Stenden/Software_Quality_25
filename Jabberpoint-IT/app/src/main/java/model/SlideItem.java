@@ -1,7 +1,6 @@
 package model;
 
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.ImageObserver;
 
 /**

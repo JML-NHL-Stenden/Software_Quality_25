@@ -7,10 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Tests the ability of the Presentation class to handle 10 slides.
  */
-public class PerformanceStressTest {
+public class PerformanceStressTest
+{
 
     @Test
-    public void testTenSlides() {
+    public void testTenSlides()
+    {
         Presentation presentation = new Presentation();
         int slideCount = 10;
 

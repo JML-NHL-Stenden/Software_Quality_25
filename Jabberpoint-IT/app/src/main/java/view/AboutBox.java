@@ -1,7 +1,7 @@
 package view;
 
-import javax.swing.JOptionPane;
-import java.awt.Frame;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * De About-box voor JabberPoint.

@@ -6,18 +6,21 @@ import java.awt.image.BufferedImage;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class BitmapItemTest {
+public class BitmapItemTest
+{
 
     @Test
-    public void testBitmapItemLoadsValidImage() {
+    public void testBitmapItemLoadsValidImage()
+    {
         System.out.println("Running testBitmapItemLoadsValidImage: verifying image loading from classpath.");
 
         BitmapItem item = new BitmapItem(1, "JabberPoint.gif");
         BufferedImage image = item.getBufferedImage();
 
-        if (image != null) {
+        if (image!=null) {
             System.out.println("Image loaded successfully in test.");
-        } else {
+        }
+        else {
             System.err.println("Image failed to load in test.");
         }
 
@@ -26,15 +29,17 @@ public class BitmapItemTest {
     }
 
     @Test
-    public void testBitmapItemFailsGracefullyForMissingImage() {
+    public void testBitmapItemFailsGracefullyForMissingImage()
+    {
         System.out.println("Running testBitmapItemFailsGracefullyForMissingImage: loading nonexistent file.");
 
         BitmapItem item = new BitmapItem(1, "nonexistent.png");
         BufferedImage image = item.getBufferedImage();
 
-        if (image == null) {
+        if (image==null) {
             System.out.println("Image load correctly failed for nonexistent image.");
-        } else {
+        }
+        else {
             System.err.println("Unexpectedly loaded image for nonexistent path.");
         }
 

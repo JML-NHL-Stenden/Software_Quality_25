@@ -9,10 +9,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SlideBuilderTest {
+public class SlideBuilderTest
+{
 
     @Test
-    public void testBuildSlideWithTitleAndItems() {
+    public void testBuildSlideWithTitleAndItems()
+    {
         System.out.println("Running testBuildSlideWithTitleAndItems...");
 
         SlideBuilder builder = new SlideBuilder();
@@ -39,7 +41,8 @@ public class SlideBuilderTest {
     }
 
     @Test
-    public void testResetBuilderClearsPreviousState() {
+    public void testResetBuilderClearsPreviousState()
+    {
         System.out.println("Running testResetBuilderClearsPreviousState...");
 
         SlideBuilder builder = new SlideBuilder();
@@ -59,12 +62,14 @@ public class SlideBuilderTest {
     }
 
     @Test
-    public void testAddTextThrowsOnNull() {
+    public void testAddTextThrowsOnNull()
+    {
         System.out.println("Running testAddTextThrowsOnNull...");
 
         SlideBuilder builder = new SlideBuilder();
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+        {
             builder.addText(1, null);
         });
 
@@ -73,12 +78,14 @@ public class SlideBuilderTest {
     }
 
     @Test
-    public void testAddTextThrowsOnEmptyString() {
+    public void testAddTextThrowsOnEmptyString()
+    {
         System.out.println("Running testAddTextThrowsOnEmptyString...");
 
         SlideBuilder builder = new SlideBuilder();
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+        {
             builder.addText(2, "   "); // whitespace only
         });
 

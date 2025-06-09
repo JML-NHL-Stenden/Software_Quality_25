@@ -9,11 +9,13 @@ import java.io.IOException;
 /**
  * A hardcoded demo presentation for testing.
  */
-public class DemoPresentation extends Accessor {
+public class DemoPresentation extends Accessor
+{
 
     @Override
-    public void loadFile(Presentation presentation, String unusedFilename) throws IOException {
-        if (presentation == null) {
+    public void loadFile(Presentation presentation, String unusedFilename) throws IOException
+    {
+        if (presentation==null) {
             throw new IllegalArgumentException("Presentation cannot be null.");
         }
 
@@ -69,7 +71,8 @@ public class DemoPresentation extends Accessor {
     }
 
     @Override
-    public void saveFile(Presentation presentation, String filename) throws IOException {
+    public void saveFile(Presentation presentation, String filename) throws IOException
+    {
         throw new UnsupportedOperationException("Save not supported for demo presentation.");
     }
 }

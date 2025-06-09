@@ -7,19 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ObserverPatternTest
 {
-    private static class MockObserver implements PresentationObserver
-    {
-        boolean wasNotified = false;
-        Slide lastSlide = null;
-
-        @Override
-        public void onSlideChanged(Presentation presentation, Slide newSlide)
-        {
-            wasNotified = true;
-            lastSlide = newSlide;
-        }
-    }
-
     @Test
     public void testObserverReceivesSlideChangeNotification()
     {
@@ -54,5 +41,18 @@ public class ObserverPatternTest
 
         assertFalse(observer.wasNotified, "Removed observer should not be notified.");
         System.out.println("Result: Observer was not notified after removal.");
+    }
+
+    private static class MockObserver implements PresentationObserver
+    {
+        boolean wasNotified = false;
+        Slide lastSlide = null;
+
+        @Override
+        public void onSlideChanged(Presentation presentation, Slide newSlide)
+        {
+            wasNotified = true;
+            lastSlide = newSlide;
+        }
     }
 }

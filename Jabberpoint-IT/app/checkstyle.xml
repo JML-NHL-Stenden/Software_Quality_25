@@ -62,7 +62,6 @@
         <module name="MissingJavadocType"/>
         <module name="MissingJavadocMethod"/>
 
-        <!-- ✅ Correct placement for MagicNumber -->
         <module name="MagicNumber">
             <property name="ignoreNumbers" value="-1,0,1"/>
         </module>

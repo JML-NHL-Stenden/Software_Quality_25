@@ -1,8 +1,10 @@
 package controller.command;
 
-public class ExitCommand implements Command {
+public class ExitCommand implements Command
+{
     @Override
-    public void execute() {
+    public void execute()
+    {
         System.exit(0);
     }
 }

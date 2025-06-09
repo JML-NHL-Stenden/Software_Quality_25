@@ -4,8 +4,8 @@ import controller.KeyController;
 import controller.MenuController;
 import model.Presentation;
 
-import javax.swing.JFrame;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -18,11 +18,10 @@ import java.awt.event.WindowEvent;
 public class SlideViewerFrame extends JFrame
 {
 
-    private static final long serialVersionUID = 3227L;
-
-    private static final String WINDOW_TITLE = "Jabberpoint 1.6 - OU";
     public static final int WIDTH = 1200;
     public static final int HEIGHT = 800;
+    private static final long serialVersionUID = 3227L;
+    private static final String WINDOW_TITLE = "Jabberpoint 1.6 - OU";
 
     public SlideViewerFrame(String versionTitle, Presentation presentation)
     {

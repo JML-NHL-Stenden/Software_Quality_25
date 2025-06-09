@@ -6,10 +6,12 @@ import model.Presentation;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class KeyController extends KeyAdapter {
+public class KeyController extends KeyAdapter
+{
     private final CommandInvoker invoker = new CommandInvoker();
 
-    public KeyController(Presentation presentation) {
+    public KeyController(Presentation presentation)
+    {
         // Slide navigation
         invoker.bind(KeyEvent.VK_PAGE_DOWN, new NextSlideCommand(presentation));
         invoker.bind(KeyEvent.VK_RIGHT, new NextSlideCommand(presentation));
@@ -32,7 +34,8 @@ public class KeyController extends KeyAdapter {
     }
 
     @Override
-    public void keyPressed(KeyEvent event) {
+    public void keyPressed(KeyEvent event)
+    {
         System.out.println("Key pressed: " + event.getKeyCode());
         invoker.execute(event.getKeyCode());
     }

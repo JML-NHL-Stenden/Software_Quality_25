@@ -12,12 +12,14 @@ import java.util.List;
  * A fluent builder for creating Slide objects.
  * Ensures proper construction and input validation before building.
  */
-public class SlideBuilder {
+public class SlideBuilder
+{
 
-    private String title;
     private final List<SlideItem> items;
+    private String title;
 
-    public SlideBuilder() {
+    public SlideBuilder()
+    {
         this.items = new ArrayList<>();
     }
 
@@ -27,8 +29,9 @@ public class SlideBuilder {
      * @param title The slide title.
      * @return This builder instance.
      */
-    public SlideBuilder withTitle(String title) {
-        if (title == null || title.trim().isEmpty()) {
+    public SlideBuilder withTitle(String title)
+    {
+        if (title==null || title.trim().isEmpty()) {
             throw new IllegalArgumentException("Slide title cannot be null or empty.");
         }
         this.title = title.trim();
@@ -42,8 +45,9 @@ public class SlideBuilder {
      * @param content The actual text content.
      * @return This builder instance.
      */
-    public SlideBuilder addText(int level, String content) {
-        if (content == null || content.trim().isEmpty()) {
+    public SlideBuilder addText(int level, String content)
+    {
+        if (content==null || content.trim().isEmpty()) {
             throw new IllegalArgumentException("Text content cannot be null or empty.");
         }
         items.add(new TextItem(level, content.trim()));
@@ -57,8 +61,9 @@ public class SlideBuilder {
      * @param imagePath The path to the image file.
      * @return This builder instance.
      */
-    public SlideBuilder addImage(int level, String imagePath) {
-        if (imagePath == null || imagePath.trim().isEmpty()) {
+    public SlideBuilder addImage(int level, String imagePath)
+    {
+        if (imagePath==null || imagePath.trim().isEmpty()) {
             throw new IllegalArgumentException("Image path cannot be null or empty.");
         }
         items.add(new BitmapItem(level, imagePath.trim()));
@@ -71,8 +76,9 @@ public class SlideBuilder {
      * @return A fully constructed Slide.
      * @throws IllegalStateException if required fields are missing.
      */
-    public Slide build() {
-        if (title == null || title.trim().isEmpty()) {
+    public Slide build()
+    {
+        if (title==null || title.trim().isEmpty()) {
             throw new IllegalStateException("Slide must have a title before building.");
         }
 
@@ -89,7 +95,8 @@ public class SlideBuilder {
      *
      * @return This builder instance, cleared and ready for new input.
      */
-    public SlideBuilder reset() {
+    public SlideBuilder reset()
+    {
         this.title = null;
         this.items.clear();
         return this;
