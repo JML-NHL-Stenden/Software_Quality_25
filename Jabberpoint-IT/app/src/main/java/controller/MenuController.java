@@ -9,6 +9,7 @@ import view.AboutBox;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.swing.*;
 
 public class MenuController extends MenuBar {
@@ -53,10 +54,14 @@ public class MenuController extends MenuBar {
         Accessor xmlAccessor = new XMLAccessor();
         try {
             presentation.clear();
-            xmlAccessor.loadFile(presentation, "test.xml");
+            InputStream stream = getClass().getClassLoader().getResourceAsStream("test.xml");
+            if (stream == null) {
+                throw new IOException("test.xml not found in classpath");
+            }
+            xmlAccessor.loadFile(presentation, stream);
             presentation.setSlideNumber(0);
         } catch (IOException exc) {
-            JOptionPane.showMessageDialog(parent, "IO Error: " + exc, "Load Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(parent, "IO Error: " + exc.getMessage(), "Load Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

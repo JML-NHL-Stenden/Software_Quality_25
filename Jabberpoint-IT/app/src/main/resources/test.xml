@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<!DOCTYPE presentation SYSTEM "jabberpoint.dtd">
+<!DOCTYPE presentation SYSTEM
+        "C:\Users\daryl\Desktop\Latest Update\Software_Quality_25\Jabberpoint-IT\app\src\main\resources\jabberpoint.dtd">
 <presentation>
     <showtitle>Test Presentation</showtitle>
 
