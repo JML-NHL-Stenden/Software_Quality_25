@@ -1,4 +1,4 @@
-name: Java CI With JUnit and Checkstyle
+name: Java CI With Gradle (JUnit + Checkstyle)
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Java
@@ -20,60 +20,25 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Download JUnit 5 Console Standalone
-        run: |
-          wget -O junit-platform-console-standalone.jar https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.1/junit-platform-console-standalone-1.10.1.jar
+      - name: Grant execute permissions to Gradle wrapper
+        run: chmod +x ./gradlew
 
-      - name: Compile Java Source and Test Files
-        run: |
-          mkdir -p out
-          find Jabberpoint-IT/app/src/main/java -name "*.java" > sources.txt
-          javac -d out @sources.txt
+      - name: Run Gradle tests
+        run: ./gradlew test --info
 
-          find Jabberpoint-IT/app/src/test/java -name "*.java" > test_sources.txt || echo "No test sources"
-          if [ -s test_sources.txt ]; then
-            javac -cp out:junit-platform-console-standalone.jar -d out @test_sources.txt
-          fi
-
-      - name: 🔍 Debug compiled test classes
-        run: |
-          echo "Listing all compiled test classes in /out:"
-          find out -name "*Test.class" || echo "No test .class files found in 'out/'"
-
-      - name: Run JUnit Tests
-        run: |
-          mkdir -p test-results
-          java -jar junit-platform-console-standalone.jar \
-            --class-path out \
-            --scan-classpath \
-            --details verbose \
-            --reports-dir=test-results || echo "No tests found or some failed"
-
-      - name: Upload Test Results
+      - name: Upload JUnit Test Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: junit-results
-          path: test-results
+          path: build/test-results/test
 
-      - name: Run Checkstyle (src and test)
-        run: |
-          wget https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.4/checkstyle-10.12.4-all.jar -O checkstyle.jar
-          java -jar checkstyle.jar -c Jabberpoint-IT/app/checkstyle.xml -f xml -o checkstyle-result.xml \
-            Jabberpoint-IT/app/src/main/java \
-            Jabberpoint-IT/app/src/test/java || echo "Checkstyle failed or empty"
-          [ -f checkstyle-result.xml ] || touch checkstyle-result.xml
-
-      - name: Debug Checkstyle Output
-        run: |
-          echo "--- File check ---"
-          ls -l checkstyle-result.xml || echo "Checkstyle output not found"
-          echo "--- Preview ---"
-          head -n 20 checkstyle-result.xml || echo "No output to preview"
+      - name: Run Checkstyle (minimal output)
+        run: ./gradlew checkstyleMain --quiet || true
 
       - name: Upload Checkstyle Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: checkstyle-report
-          path: checkstyle-result.xml
+          path: build/reports/checkstyle
